@@ -21,6 +21,7 @@ Options communes:
 """
 
 import json
+import os
 import sys
 import argparse
 from pathlib import Path
@@ -37,7 +38,11 @@ class UnipileMessagingClient:
     def __init__(self, account_id: Optional[str] = None):
         """Initialise le client avec l'account_id optionnel."""
         config = get_service_config("unipile-messaging")
-        self.default_account_id = account_id or config.get("default_account_id")
+        self.default_account_id = (
+            account_id
+            or os.environ.get("UNIPILE_ACCOUNT_ID")
+            or config.get("default_account_id")
+        )
 
     def _resolve_account_id(self, account_id: Optional[str] = None) -> Optional[str]:
         """Resout l'account_id : argument > config."""

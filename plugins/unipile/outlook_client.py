@@ -39,6 +39,7 @@ Notes :
 """
 
 import json
+import os
 import sys
 import argparse
 from pathlib import Path
@@ -88,6 +89,8 @@ class UnipileOutlookClient:
             resolved = account_id
         elif user and user in config:
             resolved = config[user].get("account_id")
+        if not resolved:
+            resolved = os.environ.get("UNIPILE_ACCOUNT_ID")
         if not resolved:
             # Fallback legacy : services.unipile-outlook.default_account_id
             resolved = config.get("default_account_id")
@@ -235,7 +238,7 @@ class UnipileOutlookClient:
         Liste les calendriers du compte.
 
         Prerequis : scopes Calendars.* actives dans Unipile Settings ->
-        Microsoft OAuth + reconnect du compte. Voir SETUP-UNIPILE-OUTLOOK.md.
+        Microsoft OAuth + reconnect du compte. Voir docs/operators/unipile-outlook.md.
 
         Note : l'API renvoie les calendriers dans `data`, pas `items` comme
         les autres endpoints. On normalise la reponse.

@@ -83,10 +83,12 @@ def get_dsn(config_path: Optional[str] = None) -> str:
     Retourne le DSN (base URL de l'API) depuis :
     1. Env var UNIPILE_DSN
     2. Champ dsn dans unipile-config.json
+
+    Si le DSN n'a pas de scheme http/https, on prefixe https:// par defaut.
     """
     env_dsn = os.environ.get("UNIPILE_DSN")
     if env_dsn:
-        return env_dsn.rstrip("/")
+        return _ensure_scheme(env_dsn).rstrip("/")
 
     config = load_config(config_path)
     dsn = config.get("dsn", "")
@@ -97,7 +99,16 @@ def get_dsn(config_path: Optional[str] = None) -> str:
             "  1. Definir UNIPILE_DSN dans l'environnement\n"
             "  2. Renseigner dsn dans unipile-config.json"
         )
-    return dsn.rstrip("/")
+    return _ensure_scheme(dsn).rstrip("/")
+
+
+def _ensure_scheme(url: str) -> str:
+    """Prefixe https:// si l'URL n'a pas deja un scheme http(s)://."""
+    stripped = url.strip()
+    lowered = stripped.lower()
+    if lowered.startswith("http://") or lowered.startswith("https://"):
+        return stripped
+    return f"https://{stripped}"
 
 
 def get_service_config(service_name: str) -> Dict[str, Any]:
