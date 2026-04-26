@@ -21,15 +21,16 @@ cd gtm-copilot
 cp .env.example .env
 ```
 
-Ouvre Claude Code dans le dossier et tape :
+Puis ouvre Claude Code **dans le dossier** (`claude` depuis `gtm-copilot/`, pas avant). Et invoque l'onboarding :
 
-```
-/system init
-```
+- **Mode explicite** : tape `/system init`
+- **Mode naturel** : dis simplement "premiere fois", "initialise le repo", ou "salut"
 
-La commande t'accompagne sur tout le reste : choix du CRM, creds Unipile, setup du venv Python, contexte business à partir de tes pointeurs (URL LinkedIn, site web, doc commerciale). Compte ~20-25 min selon ce que tu fournis.
+L'onboarding orchestre tout : choix du CRM, creds Unipile, setup du venv Python, contexte business à partir de tes pointeurs (URL LinkedIn, site web, doc commerciale). Compte ~20-25 min selon ce que tu fournis.
 
 Une fois fini, lance ta première routine en tapant : "Routine du matin".
+
+> ⚠️ **Si Claude Code etait deja ouvert avant le clone**, redemarre-le dans le nouveau dossier. Les skills (`/system`, `/daily`, `/weekly`, etc.) ne sont detectees qu'au demarrage si le dossier `.claude/skills/` existait deja a ce moment.
 
 ## Pré-requis
 
@@ -39,13 +40,17 @@ Une fois fini, lance ta première routine en tapant : "Routine du matin".
 
 ## Commandes
 
-| Dis ça | Ce qui se passe | Fréquence |
-|---|---|---|
-| "Routine du matin" | Check inbox + nouvelles connexions + relances + invitations LinkedIn | Quotidien |
-| "Weekly" | Review : wins, pipeline, objectifs semaine prochaine | Hebdo |
-| "Prepare mon RDV avec X" | Profil LinkedIn + entreprise + questions suggérées | À la demande |
-| "Trouve-moi des prospects" | Recherche LinkedIn + qualification + ajout CRM | À la demande |
-| "Fais des slides pour X" | Présentation HTML personnalisée pour un prospect | À la demande |
+Chaque action s'invoque en double mode : phrase en français OU slash command. Choisis ce qui te va.
+
+| Phrase | Slash | Ce qui se passe | Fréquence |
+|---|---|---|---|
+| "Routine du matin" | `/daily` | Check inbox + nouvelles connexions + relances + invitations LinkedIn | Quotidien |
+| "Bilan de la semaine" | `/weekly` | Review : wins, pipeline, objectifs semaine prochaine | Hebdo |
+| "Prepare mon RDV avec X" | `/prep-meeting X` | Profil LinkedIn + entreprise + questions suggérées | À la demande |
+| "Trouve-moi des prospects" | `/sourcing` | Recherche LinkedIn + qualification + ajout CRM | À la demande |
+| "Fais des slides pour X" | `/slides X` | Présentation HTML personnalisée pour un prospect | À la demande |
+| "Premiere fois" / "Initialise le repo" | `/system init` | Setup technique + contexte business | 1x à l'install |
+| "Fin de session" | `/system done` | Log de session + mise à jour des contextes | Fin de journée |
 
 ## Structure du repo
 
