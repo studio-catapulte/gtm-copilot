@@ -38,4 +38,4 @@ Tu peux ajouter tes propres variables (par exemple `HUBSPOT_PORTAL_ID`, `PIPEDRI
 
 ## Intégration côté copilote
 
-Pour brancher concrètement le copilote sur ta couche custom, parler avec Nefia : selon les volumes et la complexité, on adapte `tools/crm.md` ou on ajoute un client dédié dans `plugins/`. Ce squelette est un point de départ, pas un mode plug-and-play complet.
+Pour brancher concrètement le copilote sur ta couche custom, ouvre une issue sur le repo : selon les volumes et la complexité, on adapte `tools/crm.md` ou on ajoute un client dédié dans `plugins/`. Ce squelette est un point de départ, pas un mode plug-and-play complet.

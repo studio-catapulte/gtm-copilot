@@ -1,77 +1,35 @@
-# Setup GTM Copilot
+# Setup sous le capot
 
-Quickstart fondateur : ~15 min, du `git clone` à la première routine du matin.
+`/system init` orchestre l'install. Cette page explique ce qu'il fait pour les users qui veulent comprendre avant de lancer, ou pour debug.
 
-## Pré-requis
+## Ce que fait `/system init`
 
-- [Claude Code](https://claude.ai) installé (abonnement Claude Pro, 20 EUR/mois).
-- Un compte Unipile (le lien d'inscription et les clés d'accès te sont fournis par Nefia).
-- Un CRM choisi parmi : Airtable, Notion, NocoDB, ou ton propre stack (HubSpot, Pipedrive, custom...).
-- Python 3 disponible sur ta machine (pour les scripts `plugins/unipile/`).
+1. Vérifie/crée `.env` (depuis `.env.example`)
+2. Te demande quel CRM choisir, te guide vers `docs/crm/<type>.md`, écrit `CRM_TYPE` dans `.env`
+3. Te demande tes credentials Unipile (DSN, API key, account_id par provider)
+4. Lance `plugins/unipile/setup.sh` (crée le venv Python si absent)
+5. Teste les connexions CRM + Unipile
+6. Te demande tes pointeurs business (URL LinkedIn, site, doc commerciale)
+7. Pré-remplit `CLAUDE.md` + `knowledge/` à partir des pointeurs
+8. Te pose les questions ouvertes uniquement sur les trous restants
 
-## Étape 1 — Cloner et configurer
+## Variables `.env` (référence)
 
-```bash
-git clone https://github.com/studio-catapulte/gtm-copilot.git
-cd gtm-copilot
-cp .env.example .env
-```
+### Unipile
 
-Puis installer le venv Python pour les scripts Unipile :
+- `UNIPILE_DSN` — endpoint de ton tenant Unipile (avec `https://`)
+- `UNIPILE_API_KEY` — clé API
+- `UNIPILE_LINKEDIN_ACCOUNT_ID` / `UNIPILE_OUTLOOK_ACCOUNT_ID` / `UNIPILE_GMAIL_ACCOUNT_ID` — un par provider connecté
 
-```bash
-cd plugins/unipile && ./setup.sh
-cd ../..
-```
+Tu trouves ces valeurs dans ton [Dashboard Unipile](https://dashboard.unipile.com).
 
-## Étape 2 — Choisir et configurer ton CRM
+### CRM
 
-Le CRM est la source de vérité du copilote. Choisis-en un et suis le guide correspondant :
+`CRM_TYPE=<airtable|notion|nocodb|custom>` puis les variables correspondantes :
 
-- Airtable (par défaut, gratuit, le plus simple) → [`crm/airtable.md`](./crm/airtable.md)
-- Notion (si tu utilises déjà Notion) → [`crm/notion.md`](./crm/notion.md)
-- NocoDB (self-hosted, pas de lock-in) → [`crm/nocodb.md`](./crm/nocodb.md)
-- Custom — HubSpot, Pipedrive, ton propre stack → [`crm/custom.md`](./crm/custom.md)
+- Airtable : `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`
+- Notion : `NOTION_API_KEY`, `NOTION_DATABASE_ID`
+- NocoDB : `NOCODB_URL`, `NOCODB_TOKEN`, `NOCODB_TABLE_ID`
+- Custom : `CRM_CUSTOM_API_URL`, `CRM_CUSTOM_API_KEY` (voir `docs/crm/custom.md`)
 
-À la fin de cette étape, les variables CRM (`CRM_TYPE`, `AIRTABLE_*` / `NOTION_*` / etc.) sont remplies dans `.env`.
-
-## Étape 3 — Connecter LinkedIn et email
-
-Nefia te fournit ces valeurs à coller dans `.env` :
-
-- `UNIPILE_DSN` — l'endpoint de ton tenant Unipile.
-- `UNIPILE_API_KEY` — la clé API Unipile.
-- **Un `account_id` par provider connecté** (Unipile en crée un par OAuth) :
-  - `UNIPILE_LINKEDIN_ACCOUNT_ID` — si tu connectes LinkedIn
-  - `UNIPILE_OUTLOOK_ACCOUNT_ID` — si tu connectes Outlook (Microsoft 365)
-  - `UNIPILE_GMAIL_ACCOUNT_ID` — si tu connectes Gmail
-
-Tu n'as besoin que des `account_id` correspondant à ce que tu connectes. Si tu ne connectes que LinkedIn, ne remplis que `UNIPILE_LINKEDIN_ACCOUNT_ID`.
-
-Côté fondateur, ton seul geste : cliquer le lien OAuth pour chaque provider, accepter les permissions Microsoft / Google / LinkedIn, et confirmer à Nefia une fois fait. Nefia te renvoie l'`account_id` de chaque provider, tu le colles dans la bonne variable. Le détail technique côté Nefia est dans [`operators/`](./operators/README.md).
-
-## Étape 4 — Personnaliser le copilote
-
-Ouvre Claude Code dans le dossier `gtm-copilot/` et tape :
-
-```
-/system init
-```
-
-Le copilote te pose les questions une par une (qui tu es, ce que tu vends, à qui, ton ton, ton pitch, tes objections) et remplit `CLAUDE.md` + les fichiers de `knowledge/` (`pitch.md`, `icp.md`, `objections.md`, `tone-of-voice.md`) à ta place. Compte ~10 à 15 minutes selon le niveau de détail que tu fournis.
-
-Tu peux aussi remplir manuellement si tu préfères : édite `CLAUDE.md` (placeholders) et les 4 fichiers de `knowledge/`.
-
-## Étape 5 — Lancer
-
-Toujours dans Claude Code, dis simplement :
-
-```
-Routine du matin
-```
-
-Le copilote va checker ton inbox, lister les nouvelles connexions LinkedIn, te suggérer des relances et préparer tes invitations. Rien ne part sans ton accord explicite.
-
-## Et après ?
-
-Les autres commandes utiles sont listées dans le [`README.md`](../README.md) à la racine. Pour comprendre comment le copilote utilise ton CRM en interne, voir [`tools/crm.md`](../tools/crm.md).
+Voir [`docs/crm/`](crm/) pour les guides détaillés par CRM.

@@ -4,7 +4,7 @@
 
 **Temps :** 10 minutes, une seule fois.
 
-**Role technique :** Nefia fait tout cote Unipile. Le fondateur clique juste un lien et valide l'ecran OAuth Microsoft.
+**Role technique :** cote Unipile, c'est toi (en tant qu'operateur) qui executes ces etapes. Le fondateur clique juste un lien et valide l'ecran OAuth Microsoft.
 
 ---
 
@@ -19,7 +19,7 @@
 
 ---
 
-## Etape 1 — Scopes calendar dans le Dashboard Unipile (Nefia, une fois par client)
+## Etape 1 — Scopes calendar dans le Dashboard Unipile (cote operateur, une fois par client)
 
 **⚠️ Piege classique :** Unipile n'active PAS les scopes calendar par defaut. Si tu l'oublies, tu auras un 401 "insufficient privileges" sur tous les endpoints calendar.
 
@@ -48,9 +48,9 @@ Si le fondateur est dans une organisation Microsoft 365 avec des policies strict
 
 ---
 
-## Etape 3 — Connexion via hosted auth link (Nefia genere, client clique)
+## Etape 3 — Connexion via hosted auth link (l'operateur genere, le fondateur clique)
 
-Generer le lien cote Nefia (exige `UNIPILE_API_KEY` dans le `.env` Nefia) :
+Generer le lien cote operateur (exige `UNIPILE_API_KEY` dans ton `.env` operateur) :
 
 ```python
 # Script one-shot depuis plugins/unipile/
@@ -73,7 +73,7 @@ print(r["url"])
 
 **Envoyer le lien au fondateur** (Slack/email) avec ce message :
 
-> Clique ce lien, connecte-toi avec ton adresse Outlook Nefia, et accepte les permissions (lecture/ecriture mails + calendrier). Tu dois voir dans la liste des permissions : "Read your calendars" et "Access your mailboxes". Si tu vois juste "mail", previens-moi, on re-verifie les scopes cote admin Unipile.
+> Clique ce lien, connecte-toi avec ton adresse Outlook, et accepte les permissions (lecture/ecriture mails + calendrier). Tu dois voir dans la liste des permissions : "Read your calendars" et "Access your mailboxes". Si tu vois juste "mail", previens-moi, on re-verifie les scopes cote admin Unipile.
 
 Le lien expire en 24h. Si le fondateur ne clique pas assez vite, re-generer.
 
@@ -81,7 +81,7 @@ Le lien expire en 24h. Si le fondateur ne clique pas assez vite, re-generer.
 
 ## Etape 4 — Recuperer l'account_id et coller dans la config
 
-Apres que le fondateur a clique et valide l'OAuth, lister les comptes cote Nefia :
+Apres que le fondateur a clique et valide l'OAuth, lister les comptes cote operateur :
 
 ```bash
 cd plugins/unipile && ./venv/bin/python outlook_client.py accounts
@@ -169,7 +169,7 @@ Envoyer au fondateur, lui dire de **bien verifier "Read your calendars" dans la 
 
 ## Checklist onboarding Outlook
 
-### Cote Nefia (1x par client)
+### Cote operateur (1x par client)
 - [ ] Scopes calendar actives dans Dashboard Unipile Settings
 - [ ] Hosted auth link genere et envoye au fondateur
 - [ ] Account_id recupere apres connexion

@@ -9,18 +9,33 @@ Le copilote tourne en 4 couches :
 1. **Tes outils** — choisis ton CRM (Airtable, Notion, NocoDB, ou custom) et ta passerelle email/LinkedIn (Unipile pour Outlook, Gmail, LinkedIn).
 2. **Tes comptes** — connectés une fois via OAuth (LinkedIn, mail) et un token (CRM).
 3. **Le repo** — cloné chez toi, contient le code Python (`plugins/`), les commandes (`.claude/skills/`), et ton contexte (`knowledge/`).
-4. **Ton contexte** — qui tu es, ce que tu vends, à qui, ton ton, ta stratégie. Rempli une fois via `/system init`.
+4. **Ton contexte** — qui tu es, ce que tu vends, à qui, ton ton, ta stratégie. Rempli via `/system init`.
 
 ## Quickstart
 
-Voir le guide détaillé : [`docs/SETUP.md`](docs/SETUP.md). En résumé :
+Trois lignes :
 
-1. `git clone studio-catapulte/gtm-copilot && cd gtm-copilot`
-2. `cp .env.example .env`, choisis ton CRM, et remplis les variables (voir [`docs/crm/`](docs/crm/))
-3. `cd plugins/unipile && ./setup.sh`
-4. Récupère tes credentials Unipile auprès de Nefia (DSN, API key, account_id) et colle-les dans `.env`
-5. Ouvre Claude Code dans le dossier et tape `/system init` (~15-20 min selon les pointeurs fournis)
-6. Lance ta première routine : "Routine du matin"
+```bash
+git clone https://github.com/studio-catapulte/gtm-copilot.git
+cd gtm-copilot
+cp .env.example .env
+```
+
+Ouvre Claude Code dans le dossier et tape :
+
+```
+/system init
+```
+
+La commande t'accompagne sur tout le reste : choix du CRM, creds Unipile, setup du venv Python, contexte business à partir de tes pointeurs (URL LinkedIn, site web, doc commerciale). Compte ~20-25 min selon ce que tu fournis.
+
+Une fois fini, lance ta première routine en tapant : "Routine du matin".
+
+## Pré-requis
+
+- [Claude Code](https://claude.ai) installé (abonnement Claude Pro)
+- Un compte [Unipile](https://www.unipile.com) (gratuit pour démarrer)
+- Un CRM de ton choix (Airtable gratuit, Notion gratuit, NocoDB self-hosted, ou ta propre stack)
 
 ## Commandes
 
@@ -39,15 +54,15 @@ knowledge/          Ce que le copilote sait sur ton business
 .claude/skills/     Ce que le copilote sait faire
 tools/              Schémas et docs internes
 plugins/            Code Python pour les appels API (Unipile)
-docs/               Guides setup (fondateur + opérateur)
+docs/               Guides setup et opérationnels
 ```
 
 ## Doc
 
-- [`docs/SETUP.md`](docs/SETUP.md) — guide d'install fondateur (~15 min)
+- [`docs/SETUP.md`](docs/SETUP.md) — ce que fait `/system init` sous le capot, et référence des variables `.env`
 - [`docs/crm/`](docs/crm/) — guides par CRM (Airtable, Notion, NocoDB, custom)
-- [`docs/operators/`](docs/operators/) — guides côté Nefia (opérateur)
+- [`docs/operators/`](docs/operators/) — guides opérateur (génération de hosted auth links Unipile, scopes Microsoft, etc.)
 
 ## Support
 
-Nefia — contact@nefia.fr
+Issues : https://github.com/studio-catapulte/gtm-copilot/issues

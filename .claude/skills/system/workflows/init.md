@@ -3,16 +3,136 @@
 Guide l'utilisateur pas a pas pour configurer son copilote.
 A utiliser UNE SEULE FOIS, a l'installation du repo.
 
+`/system init` est la SEULE chose qu'un fondateur doit lancer apres avoir
+clone le repo. Cette commande orchestre TOUT : le setup technique (`.env`,
+CRM, credentials Unipile, venv Python) PUIS les questions business (identite,
+cible, process, ton, strategie). N'execute pas le setup technique a la main
+en dehors de `/system init` — laisse l'orchestration se faire ici.
+
 Trigger officiel : `/system init`. Pas `/init`, pas `/system` seul.
 
 ## Prerequis
 
 Avant de commencer, verifier :
 1. Le repo est clone en local
-2. `.env` existe (copie de `.env.example`)
-3. Claude Code est installe et fonctionne
+2. Claude Code est installe et fonctionne
+3. Python 3 est disponible dans le PATH (pour le venv Unipile)
 
 Si un prerequis manque, guider l'utilisateur pour le resoudre avant de continuer.
+
+Le fichier `.env` est cree automatiquement a l'Etape A si absent.
+
+---
+
+## Etape A — Setup technique
+
+Cette etape configure le repo : `.env`, CRM, credentials Unipile, venv Python.
+A faire AVANT les questions business pour que les tests de fin marchent.
+
+### A.1 — Verifier que `.env` existe
+
+1. Si `.env` n'existe pas a la racine du repo, le creer depuis `.env.example` :
+   ```bash
+   cp .env.example .env
+   ```
+2. Lire le `.env` actuel pour voir ce qui est deja configure (au cas ou
+   l'utilisateur relance `/system init`). Resumer en une phrase au fondateur
+   ce qui est deja rempli, et proposer de skipper les blocs deja OK.
+
+### A.2 — Choix du CRM
+
+Demander : "Tu utilises quel CRM ? Airtable / Notion / NocoDB / Custom
+(HubSpot, Pipedrive, Salesforce, autre) / pas encore de CRM"
+
+Selon la reponse :
+
+1. Editer `.env` pour fixer `CRM_TYPE` :
+   - Airtable → `CRM_TYPE=airtable`
+   - Notion → `CRM_TYPE=notion`
+   - NocoDB → `CRM_TYPE=nocodb`
+   - Custom → `CRM_TYPE=custom`
+
+2. Pointer vers le guide de setup correspondant :
+   - Airtable → `docs/crm/airtable.md`
+   - Notion → `docs/crm/notion.md`
+   - NocoDB → `docs/crm/nocodb.md`
+   - Custom → `docs/crm/custom.md`
+
+3. Demander a l'utilisateur de fournir les variables `.env` correspondantes :
+   - **Airtable** : `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`
+   - **Notion** : `NOTION_API_KEY`, `NOTION_DATABASE_ID`
+   - **NocoDB** : `NOCODB_URL`, `NOCODB_TOKEN`, `NOCODB_TABLE_ID`
+   - **Custom** : `CRM_CUSTOM_API_URL`, `CRM_CUSTOM_API_KEY`
+
+4. L'utilisateur peut soit :
+   - Coller les valeurs directement dans la conversation, et tu les ecris
+     dans `.env` via l'outil Edit (decommenter le bloc concerne dans
+     `.env.example` puis remplir les vraies valeurs dans `.env`).
+   - Ou les remplir lui-meme dans `.env` et te dire "c'est fait".
+
+Si l'utilisateur dit "j'ai pas encore de CRM" : passer au suivant, noter
+"CRM desactive" pour le recap final, expliquer qu'il pourra activer plus
+tard en relancant `/system init` ou en remplissant `.env` a la main.
+
+### A.3 — Credentials Unipile
+
+Demander : "Tu connectes quoi via Unipile ? Plusieurs choix possibles :
+LinkedIn / Outlook / Gmail / aucun pour l'instant"
+
+Si au moins un provider est choisi :
+
+1. Demander `UNIPILE_DSN` (URL du dashboard, doit inclure le scheme `https://`).
+2. Demander `UNIPILE_API_KEY`.
+3. Pour chaque provider choisi, demander l'`account_id` correspondant :
+   - LinkedIn → `UNIPILE_LINKEDIN_ACCOUNT_ID`
+   - Outlook → `UNIPILE_OUTLOOK_ACCOUNT_ID`
+   - Gmail → `UNIPILE_GMAIL_ACCOUNT_ID`
+4. Editer `.env` avec les valeurs collees.
+
+L'utilisateur recupere ces valeurs dans son dashboard Unipile :
+- DSN et API key dans Settings > API.
+- Chaque `account_id` dans Accounts > <provider> apres l'OAuth correspondant.
+
+⚠️ **Piege classique** : un compte Unipile != un account_id. Unipile cree un
+account_id par provider OAuth. Si l'utilisateur a connecte LinkedIn ET Outlook,
+il a 2 account_id distincts a remplir dans 2 variables differentes.
+
+Si l'utilisateur dit "pas encore" : noter "Unipile desactive" pour le recap,
+on passe a la suite. Les commandes LinkedIn/email seront simplement
+indisponibles tant que les variables ne sont pas remplies.
+
+### A.4 — Venv Python pour Unipile
+
+Si le venv n'existe pas dans `plugins/unipile/venv/` :
+
+```bash
+cd plugins/unipile && ./setup.sh
+```
+
+Le script cree le venv et installe les dependances depuis `requirements.txt`.
+Si le venv existe deja, le script le reutilise sans casser quoi que ce soit
+(skip silencieux possible).
+
+### A.5 — Test des connexions
+
+Lancer un mini-test concret pour chaque service configure :
+
+- **CRM configure** : tenter de lister 1 contact via le client CRM correspondant.
+- **LinkedIn configure** : `linkedin_client.py search-people --keywords "test" --limit 1`.
+- **Outlook configure** : `outlook_client.py emails-list --limit 1`.
+- **Gmail configure** : equivalent mail-list (1 mail recent).
+
+Reporter le resultat de chaque test :
+- OK → tu confirmes au fondateur.
+- Erreur → tu signales le probleme probable :
+  - DSN sans `https://` ?
+  - API key invalide ou expiree ?
+  - `account_id` colle dans la mauvaise variable (LinkedIn dans Outlook par
+    exemple) ?
+  - Permissions du token CRM trop restreintes ?
+  Et tu attends que l'utilisateur corrige avant d'avancer.
+
+Si tout est OK ou desactive volontairement, passer a l'Etape 0.
 
 ---
 
@@ -176,60 +296,10 @@ Montrer le resultat et demander validation.
 
 ---
 
-## Etape 6 — CRM
+## Etape 6 — Test de sante
 
-1. "Tu utilises quoi comme CRM ? (Airtable, Notion, NocoDB, ou un CRM existant style HubSpot/Pipedrive/Salesforce a brancher en custom)"
-
-2. Selon la reponse, **set la variable `CRM_TYPE` dans `.env`** :
-   - Airtable → `CRM_TYPE=airtable`
-   - Notion → `CRM_TYPE=notion`
-   - NocoDB → `CRM_TYPE=nocodb`
-   - Custom (HubSpot, Pipedrive, Salesforce, autre) → `CRM_TYPE=custom`
-
-3. **Pointer le fondateur vers le guide correspondant** dans `docs/crm/` :
-   - Airtable → `docs/crm/airtable.md`
-   - Notion → `docs/crm/notion.md`
-   - NocoDB → `docs/crm/nocodb.md`
-   - Custom → `docs/crm/custom.md`
-
-4. **Demander de remplir les variables `.env`** correspondantes (decommenter le bloc concerne dans `.env.example` puis remplir dans `.env`) :
-   - Airtable : `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`
-   - Notion : `NOTION_API_KEY`, `NOTION_DATABASE_ID`
-   - NocoDB : `NOCODB_URL`, `NOCODB_TOKEN`, `NOCODB_TABLE_ID`
-   - Custom : `CRM_CUSTOM_API_URL`, `CRM_CUSTOM_API_KEY`
-
-5. **Mettre a jour la section CRM dans `CLAUDE.md`** : remplacer `Outil : **[CRM_TYPE]** — \`[airtable | notion | nocodb | custom]\`` par le vrai type choisi (par exemple `Outil : **airtable**`).
-
-6. **Tester la connexion** : lancer une requete de lecture sur le CRM
-   - Si ca marche : "CRM connecte, tout est bon"
-   - Si ca echoue : diagnostiquer (cle API manquante, URL incorrecte, permissions), aider a corriger, retester
-
----
-
-## Etape 7 — Outils externes
-
-1. "T'as un compte Unipile pour LinkedIn/email ?" (si le plugin est present)
-   - Si oui : verifier `.env` :
-     - `UNIPILE_DSN` (avec scheme https://)
-     - `UNIPILE_API_KEY`
-     - **Un `account_id` PAR provider connecte** (1 par OAuth Unipile) :
-       - `UNIPILE_LINKEDIN_ACCOUNT_ID` si LinkedIn
-       - `UNIPILE_OUTLOOK_ACCOUNT_ID` si Outlook (Microsoft 365)
-       - `UNIPILE_GMAIL_ACCOUNT_ID` si Gmail
-     - Tester la connexion sur chaque provider configure
-   - Si non : "Pas de souci, les commandes LinkedIn/email seront desactivees. Tu pourras les activer plus tard."
-
-⚠️ **Piege classique** : un compte Unipile != un account_id. Unipile cree un
-account_id par provider OAuth. Si l'utilisateur a connecte LinkedIn ET Outlook,
-il a 2 account_id distincts a remplir dans 2 variables differentes.
-
-Pour chaque outil, tester la connexion et reporter le statut.
-
----
-
-## Etape 8 — Test de sante
-
-Lancer un mini-test pour valider que tout fonctionne :
+Lancer un mini-test pour valider que tout fonctionne de bout en bout
+(reprend les tests de l'Etape A.5, mais consolides dans un tableau lisible) :
 
 1. **CRM** : lire 1 contact (ou creer un contact test si le CRM est vide)
 2. **LinkedIn** (si active) : chercher 1 profil correspondant a l'ICP
@@ -251,7 +321,7 @@ Si tout est OK, passer a l'etape suivante. Sinon, proposer de corriger maintenan
 
 ---
 
-## Etape 9 — Premier commit
+## Etape 7 — Premier commit
 
 ```bash
 git add -A
@@ -261,7 +331,7 @@ git push
 
 ---
 
-## Etape 10 — Recap
+## Etape 8 — Recap
 
 ```
 Copilote configure !
@@ -288,14 +358,17 @@ Copilote configure !
 Lance "Routine du matin" pour ta premiere session !
 ```
 
-Duree totale typique : ~15-20 min selon les pointeurs fournis a l'etape 0.
+Duree totale typique : ~20-25 min selon les pointeurs fournis a l'etape 0
+et la rapidite a recuperer les credentials Unipile / CRM.
 
 ---
 
 ## Regles
 
-1. **Etape par etape** — JAMAIS tout d'un coup, toujours attendre la reponse
-2. **Idempotent** — relancer `/system init` ne doit pas casser ce qui est deja configure (demander avant d'ecraser)
-3. **Pas d'invention** — si un outil ne marche pas, dire "ca marche pas" et aider a corriger. Si l'etape 0 deduit quelque chose, le presenter comme un brouillon a valider, jamais comme un fait.
-4. **Validation humaine** — montrer le resultat de chaque etape, attendre "ok" avant de continuer
-5. **WebFetch uniquement** — pour scraper LinkedIn ou un site, utiliser `WebFetch` (outil natif Claude Code). Pas de scraper Python custom, pas de service tiers.
+1. **Setup technique d'abord** — l'Etape A (`.env`, CRM, Unipile, venv) precede TOUJOURS les questions business. Sans ca, le test de sante final ne peut pas tourner et le fondateur reste bloque sur du config a la main.
+2. **Etape par etape** — JAMAIS tout d'un coup, toujours attendre la reponse
+3. **Idempotent** — relancer `/system init` ne doit pas casser ce qui est deja configure (lire l'existant, demander avant d'ecraser, skipper les blocs deja OK)
+4. **Tolerant** — si l'utilisateur n'a pas encore de CRM ou de compte Unipile, on continue quand meme. Ces blocs sont marques "desactive" dans le recap et peuvent etre actives plus tard en relancant `/system init`.
+5. **Pas d'invention** — si un outil ne marche pas, dire "ca marche pas" et aider a corriger. Si l'etape 0 deduit quelque chose, le presenter comme un brouillon a valider, jamais comme un fait.
+6. **Validation humaine** — montrer le resultat de chaque etape, attendre "ok" avant de continuer
+7. **WebFetch uniquement** — pour scraper LinkedIn ou un site, utiliser `WebFetch` (outil natif Claude Code). Pas de scraper Python custom, pas de service tiers.
