@@ -91,7 +91,7 @@ Config : voir `.env` et `tools/crm.md` pour le guide complet.
 
 | Dis ca | Quand | Duree |
 |--------|-------|-------|
-| "/system" | Premiere utilisation du copilote | 15-20 min |
+| "/system init" | Premiere utilisation du copilote | 15-20 min |
 | "/done" | Fin de session de travail | 2-3 min |
 
 ## Regles
@@ -110,6 +110,7 @@ Config : voir `.env` et `tools/crm.md` pour le guide complet.
 - `knowledge/pitch.md` — notre offre et nos differenciateurs
 - `knowledge/icp.md` — profil client ideal detaille
 - `knowledge/objections.md` — objections frequentes + reponses
+- `knowledge/strategy.md` — positioning, packaging, buying committee, land-expand
 - `knowledge/tone-of-voice.md` — exemples de messages dans mon style
 - `knowledge/objectifs.md` — guide pour fixer de bons objectifs commerciaux
 - `logs/weekly/` — historique des bilans hebdomadaires

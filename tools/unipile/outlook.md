@@ -11,7 +11,7 @@ Ce fichier est une reference interne, appelee par les skills `/inbox`, `/briefin
 - **Scopes calendar actives** dans Dashboard Unipile -> Settings -> Microsoft OAuth
 - Venv Python : `plugins/unipile/venv`
 
-Si les comptes ne sont pas connectes, voir `SETUP-UNIPILE-OUTLOOK.md` a la racine.
+Si les comptes ne sont pas connectes, voir `docs/operators/unipile-outlook.md`.
 
 ## Invocation
 
@@ -105,6 +105,6 @@ pour proposer des slots libres.
 
 ## Erreurs courantes
 
-- `Aucun account_id Outlook configure` → le compte n'est pas encore connecte. Voir `SETUP-UNIPILE-OUTLOOK.md`.
+- `Aucun account_id Outlook configure` → le compte n'est pas encore connecte. Voir `docs/operators/unipile-outlook.md`.
 - `401 insufficient_privileges` sur calendar → les scopes calendar ne sont pas actives dans le Dashboard Unipile. Aller dans Settings -> Microsoft OAuth -> activer les 4 scopes `Calendars.*` -> reconnect le compte via hosted auth link.
 - `401 API` sur email → `UNIPILE_API_KEY` expire ou mauvais DSN. Verifier `unipile-config.json`.
