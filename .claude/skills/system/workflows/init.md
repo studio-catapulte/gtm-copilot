@@ -209,8 +209,19 @@ Montrer le resultat et demander validation.
 ## Etape 7 — Outils externes
 
 1. "T'as un compte Unipile pour LinkedIn/email ?" (si le plugin est present)
-   - Si oui : verifier `.env` (UNIPILE_DSN, UNIPILE_API_KEY), tester la connexion
+   - Si oui : verifier `.env` :
+     - `UNIPILE_DSN` (avec scheme https://)
+     - `UNIPILE_API_KEY`
+     - **Un `account_id` PAR provider connecte** (1 par OAuth Unipile) :
+       - `UNIPILE_LINKEDIN_ACCOUNT_ID` si LinkedIn
+       - `UNIPILE_OUTLOOK_ACCOUNT_ID` si Outlook (Microsoft 365)
+       - `UNIPILE_GMAIL_ACCOUNT_ID` si Gmail
+     - Tester la connexion sur chaque provider configure
    - Si non : "Pas de souci, les commandes LinkedIn/email seront desactivees. Tu pourras les activer plus tard."
+
+⚠️ **Piege classique** : un compte Unipile != un account_id. Unipile cree un
+account_id par provider OAuth. Si l'utilisateur a connecte LinkedIn ET Outlook,
+il a 2 account_id distincts a remplir dans 2 variables differentes.
 
 Pour chaque outil, tester la connexion et reporter le statut.
 

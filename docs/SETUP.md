@@ -37,13 +37,18 @@ Le CRM est la source de vérité du copilote. Choisis-en un et suis le guide cor
 
 ## Étape 3 — Connecter LinkedIn et email
 
-Nefia te fournit trois valeurs à coller dans `.env` :
+Nefia te fournit ces valeurs à coller dans `.env` :
 
 - `UNIPILE_DSN` — l'endpoint de ton tenant Unipile.
 - `UNIPILE_API_KEY` — la clé API Unipile.
-- `UNIPILE_ACCOUNT_ID` — récupéré après que tu aies cliqué sur le lien OAuth que Nefia t'envoie (Outlook, Gmail, et/ou LinkedIn selon ton pack).
+- **Un `account_id` par provider connecté** (Unipile en crée un par OAuth) :
+  - `UNIPILE_LINKEDIN_ACCOUNT_ID` — si tu connectes LinkedIn
+  - `UNIPILE_OUTLOOK_ACCOUNT_ID` — si tu connectes Outlook (Microsoft 365)
+  - `UNIPILE_GMAIL_ACCOUNT_ID` — si tu connectes Gmail
 
-Côté fondateur, ton seul geste : cliquer le lien OAuth, accepter les permissions Microsoft / Google / LinkedIn, et confirmer à Nefia une fois fait. Le détail technique côté Nefia est dans [`operators/`](./operators/README.md).
+Tu n'as besoin que des `account_id` correspondant à ce que tu connectes. Si tu ne connectes que LinkedIn, ne remplis que `UNIPILE_LINKEDIN_ACCOUNT_ID`.
+
+Côté fondateur, ton seul geste : cliquer le lien OAuth pour chaque provider, accepter les permissions Microsoft / Google / LinkedIn, et confirmer à Nefia une fois fait. Nefia te renvoie l'`account_id` de chaque provider, tu le colles dans la bonne variable. Le détail technique côté Nefia est dans [`operators/`](./operators/README.md).
 
 ## Étape 4 — Personnaliser le copilote
 

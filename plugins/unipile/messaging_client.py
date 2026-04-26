@@ -36,10 +36,22 @@ class UnipileMessagingClient:
     """Client pour le messaging multi-canal via l'API Unipile."""
 
     def __init__(self, account_id: Optional[str] = None):
-        """Initialise le client avec l'account_id optionnel."""
+        """Initialise le client avec l'account_id optionnel.
+
+        Cas d'usage principal : LinkedIn DMs/invitations. Pour WhatsApp ou
+        Instagram, passer --account-id explicite ou configurer
+        unipile-config.json services.unipile-messaging.
+
+        Ordre de resolution :
+        1. argument explicite
+        2. env UNIPILE_LINKEDIN_ACCOUNT_ID (var dediee provider)
+        3. env UNIPILE_ACCOUNT_ID (fallback global, single-provider)
+        4. unipile-config.json services.unipile-messaging.default_account_id
+        """
         config = get_service_config("unipile-messaging")
         self.default_account_id = (
             account_id
+            or os.environ.get("UNIPILE_LINKEDIN_ACCOUNT_ID")
             or os.environ.get("UNIPILE_ACCOUNT_ID")
             or config.get("default_account_id")
         )
