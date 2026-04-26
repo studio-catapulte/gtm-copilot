@@ -44,15 +44,13 @@ class UnipileMessagingClient:
 
         Ordre de resolution :
         1. argument explicite
-        2. env UNIPILE_LINKEDIN_ACCOUNT_ID (var dediee provider)
-        3. env UNIPILE_ACCOUNT_ID (fallback global, single-provider)
-        4. unipile-config.json services.unipile-messaging.default_account_id
+        2. env UNIPILE_LINKEDIN_ACCOUNT_ID
+        3. unipile-config.json services.unipile-messaging.default_account_id
         """
         config = get_service_config("unipile-messaging")
         self.default_account_id = (
             account_id
             or os.environ.get("UNIPILE_LINKEDIN_ACCOUNT_ID")
-            or os.environ.get("UNIPILE_ACCOUNT_ID")
             or config.get("default_account_id")
         )
 

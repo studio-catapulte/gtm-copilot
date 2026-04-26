@@ -81,9 +81,8 @@ class UnipileOutlookClient:
         Ordre de resolution :
         1. argument account_id explicite (prioritaire)
         2. user nomme dans services.unipile-outlook.{user}.account_id
-        3. env UNIPILE_OUTLOOK_ACCOUNT_ID (var dediee provider)
-        4. env UNIPILE_ACCOUNT_ID (fallback global, single-provider)
-        5. unipile-config.json services.unipile-outlook.default_account_id
+        3. env UNIPILE_OUTLOOK_ACCOUNT_ID
+        4. unipile-config.json services.unipile-outlook.default_account_id
 
         Args:
             account_id: Override direct de l'account_id (prioritaire).
@@ -99,9 +98,6 @@ class UnipileOutlookClient:
         if not resolved:
             resolved = os.environ.get("UNIPILE_OUTLOOK_ACCOUNT_ID")
         if not resolved:
-            resolved = os.environ.get("UNIPILE_ACCOUNT_ID")
-        if not resolved:
-            # Fallback legacy : services.unipile-outlook.default_account_id
             resolved = config.get("default_account_id")
         self.default_account_id = resolved
 
