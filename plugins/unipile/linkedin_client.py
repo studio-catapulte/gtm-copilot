@@ -29,6 +29,21 @@ sys.path.insert(0, str(Path(__file__).parent))
 from unipile_auth import api_request, api_request_paginated, get_service_config
 
 
+def _as_id_list(value) -> List[str]:
+    """Normalise une valeur location/industry en liste d'IDs.
+
+    L'API Unipile attend un array d'IDs pour `location` (ex: [102277331]) et un
+    objet {include:[...]} pour `industry`. Avant ce fix, une string brute etait
+    envoyee, ce qui faisait silencieusement echouer/ignorer le filtre.
+    Accepte une string simple, une string CSV ("123,456") ou deja une liste.
+    """
+    if value is None:
+        return []
+    if isinstance(value, (list, tuple)):
+        return [str(v).strip() for v in value if str(v).strip()]
+    return [v.strip() for v in str(value).split(",") if v.strip()]
+
+
 class UnipileLinkedInClient:
     """Client pour les operations LinkedIn via l'API Unipile."""
 
@@ -83,9 +98,9 @@ class UnipileLinkedInClient:
         if keywords:
             body["keywords"] = keywords
         if location:
-            body["location"] = location
+            body["location"] = _as_id_list(location)
         if industry:
-            body["industry"] = industry
+            body["industry"] = {"include": _as_id_list(industry)}
         if job_title:
             body["job_title"] = job_title
         if company:
@@ -118,9 +133,9 @@ class UnipileLinkedInClient:
         if keywords:
             body["keywords"] = keywords
         if location:
-            body["location"] = location
+            body["location"] = _as_id_list(location)
         if industry:
-            body["industry"] = industry
+            body["industry"] = {"include": _as_id_list(industry)}
         if company_size:
             body["company_size"] = company_size
 

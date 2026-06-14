@@ -16,6 +16,49 @@ from urllib.parse import urljoin
 import requests
 
 
+def _load_env_files() -> None:
+    """Charge le premier `.env` trouve en remontant l'arborescence (racine du kit).
+
+    Sans dependance externe (pas de python-dotenv) pour que les venv deja
+    installees fonctionnent sans re-setup. Les variables deja presentes dans
+    l'environnement ont la priorite : on ne surcharge jamais un env exporte
+    (ex: le DSN du proxy passe en ligne de commande).
+
+    Corrige le bug "chargement .env paresseux qui rate l'account_id" : sans ce
+    chargement, UNIPILE_LINKEDIN_ACCOUNT_ID defini uniquement dans le `.env`
+    n'etait jamais vu par les clients (qui lisent os.environ).
+    """
+    current = Path(__file__).resolve().parent
+    for _ in range(6):
+        env_file = current / ".env"
+        if env_file.is_file():
+            values: Dict[str, str] = {}
+            try:
+                for raw in env_file.read_text().splitlines():
+                    line = raw.strip()
+                    if not line or line.startswith("#") or "=" not in line:
+                        continue
+                    key, _, val = line.partition("=")
+                    key = key.strip()
+                    val = val.strip().strip('"').strip("'")
+                    if key:
+                        values[key] = val  # derniere occurrence gagne (convention dotenv)
+            except OSError:
+                pass
+            for key, val in values.items():
+                # n'ecrase jamais un env deja exporte, et ignore les
+                # placeholders vides (cf .env.example: cle videe puis vraie valeur)
+                if val and key not in os.environ:
+                    os.environ[key] = val
+            return
+        if current == current.parent:
+            break
+        current = current.parent
+
+
+_load_env_files()
+
+
 def find_plugin_root(start_path: Path = None) -> Path:
     """
     Remonte les dossiers en cherchant `.claude-plugin/` pour trouver
