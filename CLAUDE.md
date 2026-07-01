@@ -82,9 +82,13 @@ Le copilote s'appuie sur 3 choses :
 | Concept | Quoi | Ou |
 |---------|------|----|
 | **Knowledge** | Ce que je sais sur ton business | `knowledge/` |
-| **Skills** | Ce que je sais faire pour toi | `.claude/skills/` |
-| **Intégrations** | Scripts + workflows d'appel API, embarqués dans le skill | `.claude/skills/linkedin/`, `.claude/skills/fathom/` |
-| **Partagé** | Références transverses (contrat CRM) | `.claude/skills/_shared/` |
+| **Skills (capacités)** | Ce que je sais faire pour toi | `.claude/skills/` |
+| **Ports** | Contrat d'une capacité multi-provider (CRM, email) | `.claude/skills/_shared/{crm,email}.md` |
+| **Adapters** | Ce qui connecte un skill à un outil concret (CLI / script / MCP) | `.claude/skills/_shared/providers/`, `.claude/skills/linkedin/` |
+
+Le **binding** capacité→adapter est le seul endroit qui décide quel outil est utilisé,
+et il vit dans `.env` (`CRM_PROVIDER`, `EMAIL_PROVIDER`) — SSOT. Les skills ne connaissent
+jamais l'outil en dur. Ajouter un outil = 1 fichier adapter, zéro modif des skills.
 
 Tu n'as besoin de toucher que `knowledge/` et ce fichier. Le reste fonctionne tout seul.
 
