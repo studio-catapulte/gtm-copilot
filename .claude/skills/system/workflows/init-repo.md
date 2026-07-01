@@ -1,15 +1,15 @@
-# /system init — Setup guide du copilote
+# /system init-repo — Setup guide du copilote
 
 Guide l'utilisateur pas a pas pour configurer son copilote.
 A utiliser UNE SEULE FOIS, a l'installation du repo.
 
-`/system init` est la SEULE chose qu'un fondateur doit lancer apres avoir
+`/system init-repo` est la SEULE chose qu'un fondateur doit lancer apres avoir
 clone le repo. Cette commande orchestre TOUT : le setup technique (`.env`,
 CRM, credentials Unipile, venv Python) PUIS les questions business (identite,
 cible, process, ton, strategie). N'execute pas le setup technique a la main
-en dehors de `/system init` — laisse l'orchestration se faire ici.
+en dehors de `/system init-repo` — laisse l'orchestration se faire ici.
 
-Trigger officiel : `/system init`. Pas `/init`, pas `/system` seul.
+Trigger officiel : `/system init-repo`. Pas `/init` (collision avec le natif Claude Code), pas `/system` seul.
 
 ## Prerequis
 
@@ -36,7 +36,7 @@ A faire AVANT les questions business pour que les tests de fin marchent.
    cp .env.example .env
    ```
 2. Lire le `.env` actuel pour voir ce qui est deja configure (au cas ou
-   l'utilisateur relance `/system init`). Resumer en une phrase au fondateur
+   l'utilisateur relance `/system init-repo`). Resumer en une phrase au fondateur
    ce qui est deja rempli, et proposer de skipper les blocs deja OK.
 
 ### A.2 — Choix du CRM
@@ -72,7 +72,7 @@ Selon la reponse :
 
 Si l'utilisateur dit "j'ai pas encore de CRM" : passer au suivant, noter
 "CRM desactive" pour le recap final, expliquer qu'il pourra activer plus
-tard en relancant `/system init` ou en remplissant `.env` a la main.
+tard en relancant `/system init-repo` ou en remplissant `.env` a la main.
 
 ### A.3 — Credentials Unipile
 
@@ -103,15 +103,27 @@ indisponibles tant que les variables ne sont pas remplies.
 
 ### A.4 — Venv Python pour Unipile
 
-Si le venv n'existe pas dans `plugins/unipile/venv/` :
+Si le venv n'existe pas dans `.claude/skills/unipile/scripts/venv/` :
 
 ```bash
-cd plugins/unipile && ./setup.sh
+cd .claude/skills/unipile/scripts && ./setup.sh
 ```
 
 Le script cree le venv et installe les dependances depuis `requirements.txt`.
 Si le venv existe deja, le script le reutilise sans casser quoi que ce soit
 (skip silencieux possible).
+
+### A.4bis — Venv Python pour Fathom (si Pack Pro / transcripts meetings)
+
+Si `FATHOM_API_KEY` est renseignee et que le venv n'existe pas dans
+`.claude/skills/fathom/scripts/venv/` :
+
+```bash
+cd .claude/skills/fathom/scripts && ./setup.sh
+```
+
+Meme logique idempotente que le venv Unipile. Si Fathom n'est pas utilise,
+sauter cette etape.
 
 ### A.5 — Test des connexions
 
@@ -121,6 +133,7 @@ Lancer un mini-test concret pour chaque service configure :
 - **LinkedIn configure** : `linkedin_client.py search-people --keywords "test" --limit 1`.
 - **Outlook configure** : `outlook_client.py emails-list --limit 1`.
 - **Gmail configure** : equivalent mail-list (1 mail recent).
+- **Fathom configure** : `fathom_client.py meetings --limit 1` (depuis `.claude/skills/fathom/scripts`, venv active).
 
 Reporter le resultat de chaque test :
 - OK → tu confirmes au fondateur.
@@ -351,7 +364,6 @@ Copilote configure !
 | "Prepare mon RDV avec X" | Avant un meeting (5 min) |
 | "Weekly" | Bilan de la semaine (15 min) |
 | "Trouve-moi des prospects" | Quand le pipeline est vide (15 min) |
-| "Fais des slides pour X" | Avant un RDV important (10 min) |
 | "/done" | Fin de session |
 
 ## Prochaine etape
@@ -367,8 +379,8 @@ et la rapidite a recuperer les credentials Unipile / CRM.
 
 1. **Setup technique d'abord** — l'Etape A (`.env`, CRM, Unipile, venv) precede TOUJOURS les questions business. Sans ca, le test de sante final ne peut pas tourner et le fondateur reste bloque sur du config a la main.
 2. **Etape par etape** — JAMAIS tout d'un coup, toujours attendre la reponse
-3. **Idempotent** — relancer `/system init` ne doit pas casser ce qui est deja configure (lire l'existant, demander avant d'ecraser, skipper les blocs deja OK)
-4. **Tolerant** — si l'utilisateur n'a pas encore de CRM ou de compte Unipile, on continue quand meme. Ces blocs sont marques "desactive" dans le recap et peuvent etre actives plus tard en relancant `/system init`.
+3. **Idempotent** — relancer `/system init-repo` ne doit pas casser ce qui est deja configure (lire l'existant, demander avant d'ecraser, skipper les blocs deja OK)
+4. **Tolerant** — si l'utilisateur n'a pas encore de CRM ou de compte Unipile, on continue quand meme. Ces blocs sont marques "desactive" dans le recap et peuvent etre actives plus tard en relancant `/system init-repo`.
 5. **Pas d'invention** — si un outil ne marche pas, dire "ca marche pas" et aider a corriger. Si l'etape 0 deduit quelque chose, le presenter comme un brouillon a valider, jamais comme un fait.
 6. **Validation humaine** — montrer le resultat de chaque etape, attendre "ok" avant de continuer
 7. **WebFetch uniquement** — pour scraper LinkedIn ou un site, utiliser `WebFetch` (outil natif Claude Code). Pas de scraper Python custom, pas de service tiers.

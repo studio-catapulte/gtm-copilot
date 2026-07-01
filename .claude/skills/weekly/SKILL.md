@@ -3,8 +3,8 @@ name: weekly
 description: |
   Bilan hebdomadaire + accountability : confrontation objectifs vs realise,
   KPIs pipeline, wins/blocages, fixation d'objectifs challenges par l'IA,
-  anticipation des blocages avec friction-killers.
-  Etape par etape avec validation a chaque phase.
+  anticipation des blocages avec friction-killers. Reecrit STATUS.md (snapshot
+  macro vivant). Etape par etape avec validation a chaque phase.
 
   Triggers: /weekly, "bilan de la semaine", "weekly", "on fait le point".
 ---
@@ -13,6 +13,11 @@ description: |
 
 Review de la semaine + fixation d'objectifs pour la suivante.
 L'objectif n'est pas de reporter, c'est de **pousser au passage a l'action**.
+
+**Propriete de `STATUS.md`** : ce skill est le **seul** autorise a reecrire `STATUS.md`
+a la racine du repo — un snapshot macro vivant (etat du pipe + focus S+1), **reecrit**
+chaque semaine, jamais accumule. Si STATUS.md grossit entre deux weekly, c'est un bug.
+Le detail narratif d'une semaine va dans `logs/weekly/YYYY-WXX.md`, pas dans STATUS.md.
 
 ## Philosophie
 
@@ -214,9 +219,40 @@ au: YYYY-MM-DD
 [Contexte supplementaire du fondateur]
 ```
 
-2. **Mettre a jour le CRM** : champs `Next` pour les contacts mentionnes, passer en "Perdu"/"Nurturing" si applicable
+2. **Reecrire `STATUS.md`** (remplace l'ancien, pas append) — snapshot macro vivant :
 
-3. **Fixer le jour de bilan** (premier bilan uniquement) :
+```markdown
+---
+type: status
+maj: YYYY-MM-DD
+semaine: YYYY-WXX
+---
+
+# Statut — [Entreprise / Copilote]
+
+## Pipeline (snapshot)
+| Statut | Nombre | Delta vs S-1 |
+|--------|--------|--------------|
+| [Statut 1] | X | +/- |
+| **Total actif** | **X** | +/- |
+
+## Focus S+1
+1. [Objectif] — [cible] — [creneau]
+2. [Objectif] — [cible] — [creneau]
+
+## Hypotheses en cours
+- [ICP / pitch / canal en test + verdict provisoire]
+
+## Blocages macro
+- [ce qui bloque a l'echelle, pas le detail de la semaine]
+```
+
+Comparer avec le `STATUS.md` precedent pour les deltas par stage. Si c'est le
+premier bilan, creer STATUS.md de zero.
+
+3. **Mettre a jour le CRM** : champs `Next` pour les contacts mentionnes, passer en "Perdu"/"Nurturing" si applicable
+
+4. **Fixer le jour de bilan** (premier bilan uniquement) :
    Demander : "Quel jour tu preferes faire ton bilan chaque semaine ?"
    Persister la reponse dans `CLAUDE.md` sous la section "Regles" :
    `- Jour de bilan : [jour choisi]`

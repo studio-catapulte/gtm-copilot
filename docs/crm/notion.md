@@ -25,7 +25,7 @@ Crée une page dans Notion contenant une database (full page ou inline) avec ces
 | Date dernière action | Date | |
 | Notes | Text | |
 
-Le schéma est aligné avec le contrat décrit dans [`../../tools/crm.md`](../../tools/crm.md).
+Le schéma est aligné avec le contrat décrit dans [`../../.claude/skills/_shared/crm.md`](../../.claude/skills/_shared/crm.md).
 
 ## Étape 3 — Partager la database avec l'intégration
 

@@ -5,7 +5,7 @@ description: |
   Utilise ce skill quand l'utilisateur veut : (1) configurer le copilote pour
   la premiere fois, (2) cloturer sa session de travail, (3) dire "fin de session",
   "on s'arrete la", "wrap up", "premiere fois", "on demarre", "initialise le repo".
-  Triggers: /system, /system init, /done, /system done.
+  Triggers: /system, /system init-repo, /done, /system done.
 ---
 
 # /system — Maintenance du copilote
@@ -16,7 +16,7 @@ Skill de maintenance du repo et du copilote. Deux workflows :
 
 | Trigger | Workflow |
 |---------|----------|
-| `/system` ou `/system init` ou "premiere fois" | → Lire `workflows/init.md` |
+| `/system` ou `/system init-repo` ou "premiere fois" | → Lire `workflows/init-repo.md` |
 | `/done` ou `/system done` ou "fin de session" | → Lire `workflows/done.md` |
 
 Si l'utilisateur tape `/system` sans precision et que le repo est deja configure

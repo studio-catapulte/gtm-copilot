@@ -18,7 +18,7 @@ L'approche la plus simple et la plus portable :
 
 - Trois endpoints REST : `GET /prospects`, `POST /prospects`, `PATCH /prospects/{id}`
 - Authentification via header `Authorization: Bearer <token>`
-- Réponses JSON alignées avec le schéma commun (voir [`../../tools/crm.md`](../../tools/crm.md))
+- Réponses JSON alignées avec le schéma commun (voir [`../../.claude/skills/_shared/crm.md`](../../.claude/skills/_shared/crm.md))
 
 Cette couche peut être :
 
@@ -38,4 +38,4 @@ Tu peux ajouter tes propres variables (par exemple `HUBSPOT_PORTAL_ID`, `PIPEDRI
 
 ## Intégration côté copilote
 
-Pour brancher concrètement le copilote sur ta couche custom, ouvre une issue sur le repo : selon les volumes et la complexité, on adapte `tools/crm.md` ou on ajoute un client dédié dans `plugins/`. Ce squelette est un point de départ, pas un mode plug-and-play complet.
+Pour brancher concrètement le copilote sur ta couche custom, ouvre une issue sur le repo : selon les volumes et la complexité, on adapte `.claude/skills/_shared/crm.md` ou on ajoute un client dédié dans `plugins/`. Ce squelette est un point de départ, pas un mode plug-and-play complet.

@@ -8,13 +8,13 @@
 Si tu vois encore des `[PLACEHOLDERS]` non remplis dans ce fichier (par exemple
 `[ENTREPRISE]`, `[PRENOM]`, `[OFFRE PRINCIPALE]`), c'est que le repo n'a pas
 encore ete configure. **AVANT de repondre quoi que ce soit a l'utilisateur,
-invoque la skill `system` avec l'argument `init`** (equivalent de `/system init`).
+invoque la skill `system` avec l'argument `init-repo`** (equivalent de `/system init-repo`).
 
 Cela orchestre le setup complet : `.env`, choix du CRM, credentials Unipile,
 venv Python, puis questions business pour remplir ce CLAUDE.md et `knowledge/`.
 
 Ne propose PAS d'etapes manuelles, ne lis PAS le README pour faire toi-meme,
-n'improvise PAS. La skill `system init` est le seul point d'entree de l'onboarding.
+n'improvise PAS. La skill `system init-repo` est le seul point d'entree de l'onboarding.
 
 Une fois les placeholders remplis, ce bloc devient sans objet (tu peux l'ignorer).
 
@@ -82,15 +82,16 @@ Le copilote s'appuie sur 3 choses :
 | Concept | Quoi | Ou |
 |---------|------|----|
 | **Knowledge** | Ce que je sais sur ton business | `knowledge/` |
-| **Skills** | Ce que je sais faire pour toi | `.claude/skills/` (7 commandes) |
-| **Tools** | Les outils que j'utilise en coulisses | `tools/` + `plugins/` |
+| **Skills** | Ce que je sais faire pour toi | `.claude/skills/` |
+| **Intégrations** | Scripts + workflows d'appel API, embarqués dans le skill | `.claude/skills/unipile/`, `.claude/skills/fathom/` |
+| **Partagé** | Références transverses (contrat CRM) | `.claude/skills/_shared/` |
 
 Tu n'as besoin de toucher que `knowledge/` et ce fichier. Le reste fonctionne tout seul.
 
 ## CRM
 
 Outil : **[CRM_TYPE]** — `[airtable | notion | nocodb | custom]`
-Config : voir `.env` et `tools/crm.md` pour le guide complet.
+Config : voir `.env` et `.claude/skills/_shared/crm.md` pour le guide complet.
 
 ## Commandes
 
@@ -102,13 +103,12 @@ Config : voir `.env` et `tools/crm.md` pour le guide complet.
 | "Prepare mon RDV avec X" | Avant un meeting | 5 min |
 | "Weekly" | [JOUR DE BILAN] | 15 min |
 | "Trouve-moi des prospects" | Quand le pipeline est vide | 15 min |
-| "Fais des slides pour X" | Avant un RDV important | 10 min |
 
 ### Systeme
 
 | Dis ca | Quand | Duree |
 |--------|-------|-------|
-| "/system init" | Premiere utilisation du copilote | 15-20 min |
+| "/system init-repo" | Premiere utilisation du copilote | 15-20 min |
 | "/done" | Fin de session de travail | 2-3 min |
 
 ## Regles

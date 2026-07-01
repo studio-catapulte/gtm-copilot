@@ -13,6 +13,47 @@ Analyser la conversation et identifier :
 
 ---
 
+## Etape 1bis — Log dans la daily (facon Nefia)
+
+Append un bloc session au daily du jour : `logs/daily/YYYY-MM-DD.md` (miroir de
+`logs/weekly/`). **Append, jamais reecrire** — plusieurs sessions par jour possibles.
+Creer le fichier avec le frontmatter s'il n'existe pas.
+
+Si le fichier n'existe pas encore :
+
+```markdown
+---
+type: daily
+date: YYYY-MM-DD
+---
+
+# YYYY-MM-DD ([Jour])
+```
+
+Puis append le bloc de session (l'heure demarque les sessions) :
+
+```markdown
+
+## Session [HH:MM]
+
+### Accompli
+- [action / message envoye / contact MAJ]
+
+### Decisions
+- [changement de strategie / nouvel objectif] (ou "Aucune")
+
+### Metriques
+- [contacts ajoutes / messages / reponses / RDV, si pertinent]
+
+### Pickup (prochaine fois)
+- [ ] [TODO identifie mais non fait]
+```
+
+Ne loguer que ce que `git log` et le CRM ne capturent pas. Si l'utilisateur voulait
+juste papoter (rien fait), ne pas ecrire dans le daily.
+
+---
+
 ## Etape 2 — MAJ objectifs
 
 Lire `knowledge/objectifs.md`. Si des objectifs ont ete avances pendant la session :
@@ -76,6 +117,9 @@ Message de commit en francais, concis.
 
 ```
 Session terminee !
+
+## Daily
+- Session [HH:MM] appendee dans logs/daily/YYYY-MM-DD.md
 
 ## Accompli
 - [action 1]
