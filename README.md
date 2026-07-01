@@ -78,7 +78,7 @@ un outil = écrire 1 fichier adapter, sans toucher aux skills.
 
 - [`docs/SETUP.md`](docs/SETUP.md) — ce que fait `/system init-repo` sous le capot, et référence des variables `.env`
 - [`.claude/skills/_shared/providers/crm/`](.claude/skills/_shared/providers/crm/) — guides par CRM (Airtable, Notion, NocoDB, custom)
-- [`docs/operators/`](docs/operators/) — guides opérateur (génération de hosted auth links Unipile, scopes Microsoft, etc.)
+- [`.claude/skills/_shared/providers/email/`](.claude/skills/_shared/providers/email/) — adapters email (gog, ms365-mcp, unipile-outlook)
 
 ## Support
 

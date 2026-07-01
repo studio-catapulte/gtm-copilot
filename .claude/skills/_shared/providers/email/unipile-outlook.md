@@ -16,7 +16,8 @@ Implemente le port `_shared/email.md`. Active via `EMAIL_PROVIDER=unipile-outloo
 - Venv Python : celui du skill `linkedin` (`.claude/skills/linkedin/scripts/venv`),
   qui fournit `requests` + `unipile_auth`.
 
-Si les comptes ne sont pas connectes, voir `docs/operators/unipile-outlook.md`.
+Connexion des comptes : OAuth Microsoft via le Dashboard Unipile (Settings > Microsoft
+OAuth pour les scopes mail + calendrier), puis recuperer l'`account_id` dans Accounts.
 
 ## Invocation
 
@@ -112,6 +113,6 @@ pour proposer des slots libres.
 
 ## Erreurs courantes
 
-- `Aucun account_id Outlook configure` → le compte n'est pas encore connecte. Voir `docs/operators/unipile-outlook.md`.
+- `Aucun account_id Outlook configure` → le compte n'est pas encore connecte (OAuth Microsoft dans le Dashboard Unipile, puis remplir `UNIPILE_OUTLOOK_ACCOUNT_ID`).
 - `401 insufficient_privileges` sur calendar → les scopes calendar ne sont pas actives dans le Dashboard Unipile. Aller dans Settings -> Microsoft OAuth -> activer les 4 scopes `Calendars.*` -> reconnect le compte via hosted auth link.
 - `401 API` sur email → `UNIPILE_API_KEY` expire ou mauvais DSN. Verifier `unipile-config.json`.

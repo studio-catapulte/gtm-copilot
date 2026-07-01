@@ -243,7 +243,7 @@ class UnipileOutlookClient:
         Liste les calendriers du compte.
 
         Prerequis : scopes Calendars.* actives dans Unipile Settings ->
-        Microsoft OAuth + reconnect du compte. Voir docs/operators/unipile-outlook.md.
+        Microsoft OAuth + reconnect du compte.
 
         Note : l'API renvoie les calendriers dans `data`, pas `items` comme
         les autres endpoints. On normalise la reponse.
