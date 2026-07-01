@@ -30,6 +30,10 @@ Demander les criteres (ou les deduire du contexte) :
 Verifier que les criteres matchent le ICP (`knowledge/icp.md`).
 Si les criteres divergent du ICP, le signaler.
 
+Si `knowledge/icp.md` est vide ou un simple squelette → s'arreter et demander
+les criteres ICP a l'utilisateur (ou proposer `/system init-repo`) avant toute
+recherche, plutot que de lancer une recherche non ciblee.
+
 ### Etape 2 — Recherche LinkedIn
 
 Suivre les instructions dans `.claude/skills/unipile/workflows/linkedin.md` :
@@ -40,6 +44,9 @@ from linkedin_client import UnipileLinkedInClient
 client = UnipileLinkedInClient()
 results = client.search_people(keywords="...", location="...", title="...")
 ```
+
+Recuperer ~1.5x le volume demande pour absorber la deduplication et la
+qualification (le filtre elimine une partie des resultats).
 
 ### Etape 3 — Qualification + deduplication
 

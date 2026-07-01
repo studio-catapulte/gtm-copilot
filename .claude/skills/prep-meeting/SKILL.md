@@ -27,6 +27,9 @@ L'utilisateur fournit au minimum UN de ces elements :
 1. **Chercher dans le CRM Notion** (database ID dans `.env`) :
    - Nom, entreprise, poste, statut, notes existantes
    - Historique des echanges (champ Notes, Dernier contact)
+   - **Si le contact n'est pas trouve dans le CRM** → le signaler et demander :
+     creer la fiche a la volee (via recherche web/LinkedIn) ou continuer sans ?
+     Ne pas s'arreter silencieusement.
 
 2. **Recherche web** sur le prospect et son entreprise :
    - Site de l'entreprise : services, equipe, positionnement, actualites
@@ -41,6 +44,10 @@ L'utilisateur fournit au minimum UN de ces elements :
 4. **Si RDV de suivi et Pack Pro actif (Fathom disponible)** — recuperer le dernier call :
    - Suivre `.claude/skills/fathom/workflows/fathom.md` pour resoudre le dernier
      meeting avec ce prospect (summary + action items) et repartir de ce qui a ete dit.
+
+> Regle de robustesse : chaque source ci-dessus est optionnelle. Si une source
+> ne renvoie rien (pas de profil, pas de call, pas de resultat web), noter
+> « info non trouvee » pour ce bloc et continuer — ne jamais bloquer le brief.
 
 ### Etape 2 — Matcher avec la knowledge base
 
@@ -124,3 +131,5 @@ Afficher le brief complet et demander :
 - Concis, actionnable
 - Questions formulees dans le ton du fondateur (voir `knowledge/tone-of-voice.md`)
 - Pas de jargon marketing sauf si le fondateur en utilise
+- Factuel : si une info manque, ecrire « info non trouvee » — ne jamais inventer
+  un fait sur le prospect ou l'entreprise

@@ -240,6 +240,9 @@ Prochaines actions :
 3. **CRM = source de verite** — toujours lire avant d'agir, toujours mettre a jour apres
 4. **Pas de triage automatique en tache de fond** — c'est une routine humaine assistee
 5. Si le fondateur est presse : proposer de skip les etapes non-critiques
+6. **Tolerance aux pannes** — si un canal (mail, LinkedIn, CRM) est indisponible
+   au runtime, noter « X indisponible » et continuer la routine. Ne jamais
+   bloquer toute la routine sur l'echec d'une seule source.
 
 ## Si pas de Pack Pro
 
