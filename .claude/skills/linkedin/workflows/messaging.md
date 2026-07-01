@@ -6,13 +6,13 @@ Ce fichier est une reference interne, appelee par les skills `/prospection` et `
 ## Prerequis
 
 - `UNIPILE_DSN` et `UNIPILE_API_KEY` dans `.env`
-- Venv Python : `.claude/skills/unipile/scripts/venv`
+- Venv Python : `.claude/skills/linkedin/scripts/venv`
 - Compte LinkedIn connecte dans Unipile
 
 ## Lister les conversations recentes
 
 ```bash
-cd .claude/skills/unipile/scripts && source venv/bin/activate
+cd .claude/skills/linkedin/scripts && source venv/bin/activate
 python messaging_client.py chats --provider LINKEDIN --limit 20
 ```
 

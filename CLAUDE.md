@@ -83,7 +83,7 @@ Le copilote s'appuie sur 3 choses :
 |---------|------|----|
 | **Knowledge** | Ce que je sais sur ton business | `knowledge/` |
 | **Skills** | Ce que je sais faire pour toi | `.claude/skills/` |
-| **Intégrations** | Scripts + workflows d'appel API, embarqués dans le skill | `.claude/skills/unipile/`, `.claude/skills/fathom/` |
+| **Intégrations** | Scripts + workflows d'appel API, embarqués dans le skill | `.claude/skills/linkedin/`, `.claude/skills/fathom/` |
 | **Partagé** | Références transverses (contrat CRM) | `.claude/skills/_shared/` |
 
 Tu n'as besoin de toucher que `knowledge/` et ce fichier. Le reste fonctionne tout seul.

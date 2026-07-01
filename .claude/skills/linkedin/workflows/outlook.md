@@ -5,11 +5,11 @@ Ce fichier est une reference interne, appelee par les skills `/inbox`, `/briefin
 
 ## Prerequis
 
-- `.claude/skills/unipile/scripts/unipile-config.json` contient `api_key`, `dsn`, et au moins
+- `.claude/skills/linkedin/scripts/unipile-config.json` contient `api_key`, `dsn`, et au moins
   une entree `services.unipile-outlook.<user>.account_id`
 - Les comptes Outlook sont connectes dans Unipile (OAuth Microsoft via dashboard)
 - **Scopes calendar actives** dans Dashboard Unipile -> Settings -> Microsoft OAuth
-- Venv Python : `.claude/skills/unipile/scripts/venv`
+- Venv Python : `.claude/skills/linkedin/scripts/venv`
 
 Si les comptes ne sont pas connectes, voir `docs/operators/unipile-outlook.md`.
 
@@ -18,7 +18,7 @@ Si les comptes ne sont pas connectes, voir `docs/operators/unipile-outlook.md`.
 Toutes les commandes passent par le client Python :
 
 ```bash
-cd .claude/skills/unipile/scripts && source venv/bin/activate
+cd .claude/skills/linkedin/scripts && source venv/bin/activate
 python outlook_client.py --user <nom> <sous-commande> [options]
 ```
 

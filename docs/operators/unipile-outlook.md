@@ -53,7 +53,7 @@ Si le fondateur est dans une organisation Microsoft 365 avec des policies strict
 Generer le lien cote operateur (exige `UNIPILE_API_KEY` dans ton `.env` operateur) :
 
 ```python
-# Script one-shot depuis .claude/skills/unipile/scripts/
+# Script one-shot depuis .claude/skills/linkedin/scripts/
 from datetime import datetime, timedelta, timezone
 import sys
 sys.path.insert(0, 'clients')
@@ -84,12 +84,12 @@ Le lien expire en 24h. Si le fondateur ne clique pas assez vite, re-generer.
 Apres que le fondateur a clique et valide l'OAuth, lister les comptes cote operateur :
 
 ```bash
-cd .claude/skills/unipile/scripts && ./venv/bin/python outlook_client.py accounts
+cd .claude/skills/linkedin/scripts && ./venv/bin/python outlook_client.py accounts
 ```
 
 Identifier le compte OUTLOOK qui vient d'apparaitre (adresse email du fondateur). Noter l'`id`.
 
-Puis dans le repo client `.claude/skills/unipile/scripts/unipile-config.json` :
+Puis dans le repo client `.claude/skills/linkedin/scripts/unipile-config.json` :
 
 ```json
 {
@@ -113,7 +113,7 @@ La clef `<nom_fondateur>` sera utilisee ensuite avec `--user <nom>` dans les com
 ## Etape 5 — Test de bout en bout
 
 ```bash
-cd .claude/skills/unipile/scripts && source venv/bin/activate
+cd .claude/skills/linkedin/scripts && source venv/bin/activate
 
 # 1. Lister les comptes (voir le nouveau OUTLOOK)
 python outlook_client.py accounts
@@ -159,7 +159,7 @@ Envoyer au fondateur, lui dire de **bien verifier "Read your calendars" dans la 
 - Aucun event cree sans validation
 - Pas de background polling : Claude lit l'inbox uniquement quand une routine est lancee
 
-**Ou vit le token :** `.claude/skills/unipile/scripts/unipile-config.json` local a la machine du fondateur. Fichier dans `.gitignore`. Local uniquement.
+**Ou vit le token :** `.claude/skills/linkedin/scripts/unipile-config.json` local a la machine du fondateur. Fichier dans `.gitignore`. Local uniquement.
 
 **Revoquer l'acces :**
 - Cote Unipile : Dashboard → Accounts → compte Outlook → Delete

@@ -19,7 +19,7 @@ intégration embarque ses scripts Python et ses workflows d'invocation.
 - `_shared/crm.md` — contrat CRM-agnostique comme référence transverse.
 
 ### Modifié
-- **`unipile` est désormais un skill autoportant** (`.claude/skills/unipile/`) :
+- **`unipile` est désormais un skill autoportant** (`.claude/skills/linkedin/`) :
   scripts Python + workflows + `SKILL.md`. Fin des dossiers `plugins/` et `tools/`.
 - **`init` → `init-repo`** (sous l'umbrella `system`) pour éviter la collision avec
   le `/init` natif de Claude Code. Setup venv Fathom ajouté à l'onboarding.

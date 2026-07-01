@@ -6,13 +6,13 @@ Ce fichier est une reference interne, appelee par les skills `/prospection` et `
 ## Prerequis
 
 - `UNIPILE_DSN` et `UNIPILE_API_KEY` dans `.env`
-- Venv Python : `.claude/skills/unipile/scripts/venv`
+- Venv Python : `.claude/skills/linkedin/scripts/venv`
 - Compte LinkedIn connecte dans Unipile
 
 ## Recherche de profils
 
 ```python
-import sys; sys.path.insert(0, '.claude/skills/unipile/scripts')
+import sys; sys.path.insert(0, '.claude/skills/linkedin/scripts')
 from linkedin_client import UnipileLinkedInClient
 client = UnipileLinkedInClient()
 
@@ -40,7 +40,7 @@ contacts = client.get_contacts(limit=50)
 ## Envoi d'invitations
 
 ```bash
-python .claude/skills/unipile/scripts/messaging_client.py invite PROVIDER_ID
+python .claude/skills/linkedin/scripts/messaging_client.py invite PROVIDER_ID
 ```
 
 - **Max 20 invitations/jour**, ~100/semaine

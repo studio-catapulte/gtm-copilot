@@ -103,10 +103,10 @@ indisponibles tant que les variables ne sont pas remplies.
 
 ### A.4 — Venv Python pour Unipile
 
-Si le venv n'existe pas dans `.claude/skills/unipile/scripts/venv/` :
+Si le venv n'existe pas dans `.claude/skills/linkedin/scripts/venv/` :
 
 ```bash
-cd .claude/skills/unipile/scripts && ./setup.sh
+cd .claude/skills/linkedin/scripts && ./setup.sh
 ```
 
 Le script cree le venv et installe les dependances depuis `requirements.txt`.

@@ -7,7 +7,7 @@
 1. Vérifie/crée `.env` (depuis `.env.example`)
 2. Te demande quel CRM choisir, te guide vers `docs/crm/<type>.md`, écrit `CRM_TYPE` dans `.env`
 3. Te demande tes credentials Unipile (DSN, API key, account_id par provider)
-4. Lance `.claude/skills/unipile/scripts/setup.sh` (crée le venv Python si absent)
+4. Lance `.claude/skills/linkedin/scripts/setup.sh` (crée le venv Python si absent)
 5. Teste les connexions CRM + Unipile
 6. Te demande tes pointeurs business (URL LinkedIn, site, doc commerciale)
 7. Pré-remplit `CLAUDE.md` + `knowledge/` à partir des pointeurs
