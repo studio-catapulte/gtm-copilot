@@ -17,8 +17,8 @@ description: |
 Skill nomme par la **capacite** (LinkedIn). Derriere, un **adapter unique = Unipile**
 colle au skill : code Python (`scripts/`), cookbooks (`workflows/`), setup venv.
 
-> Le jour ou un 2e provider LinkedIn existe, on extraira un port `_shared/`. Pas avant.
-> L'email/calendrier ne passe PAS par ici — voir le port `_shared/email.md`.
+> Un seul provider LinkedIn (Unipile) → pas de contrat abstrait séparé, tout est ici.
+> L'email/calendrier ne passe PAS par ici — voir le skill `.claude/skills/email/`.
 
 ## Routing
 

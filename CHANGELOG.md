@@ -2,6 +2,33 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/).
 
+## [0.5.0] — 2026-07-01
+
+Refonte de l'architecture en **skills-outils** (validée par un challenge de 3 revues
+indépendantes). Fin du dossier `_shared` : chaque capacité est un skill à part entière
+qui encapsule son outil, et les routines les référencent par chemin.
+
+### Ajouté
+- **Skills-outils `crm/`, `email/`, `meeting-notes/`** : chaque `SKILL.md` porte le
+  **contrat** (opérations + schéma, SSOT qui protège les routines), et un sous-dossier
+  `adapters/` contient le how-to par outil.
+- **Mapping d'opérations Notion (REST)** dans `crm/adapters/notion.md` — comble un trou
+  de v0.4 (aucune opération runtime n'était spécifiée). Adapter headless-safe.
+- **Section `Outils actifs` dans `CLAUDE.md`** : le choix d'outil par capacité (le
+  binding), lu par l'agent. Support **multi-compte** (ex. deux boîtes mail).
+
+### Modifié
+- **`_shared/{crm,email}.md` + `_shared/providers/` → `skills/{crm,email}/` + `adapters/`.**
+  Le dossier `_shared` disparaît.
+- **`fathom/` → `meeting-notes/`** : nommé par capacité ; Fathom devient un adapter
+  (`adapters/fathom/`). Contrat lecture-seule (resolve/transcript/summary/action-items).
+- **Le binding quitte `.env`** : plus de `CRM_PROVIDER`/`EMAIL_PROVIDER`. `.env` = secrets
+  uniquement ; le choix d'outil vit dans `CLAUDE.md > Outils actifs`.
+- Routines (`daily`, `weekly`, `sourcing`, `prep-meeting`, `system/init-repo`) rebranchées
+  sur les nouveaux chemins ; onboarding déclare l'outil dans CLAUDE.md.
+- **Recherche web** : pas de skill dédié (firecrawl déjà le défaut) — juste une ligne
+  dans `CLAUDE.md > Outils actifs`.
+
 ## [0.4.0] — 2026-07-01
 
 Le système devient **générique face au provider** via un modèle **ports & adapters** :

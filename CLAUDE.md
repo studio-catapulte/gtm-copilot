@@ -82,20 +82,28 @@ Le copilote s'appuie sur 3 choses :
 | Concept | Quoi | Ou |
 |---------|------|----|
 | **Knowledge** | Ce que je sais sur ton business | `knowledge/` |
-| **Skills (capacités)** | Ce que je sais faire pour toi | `.claude/skills/` |
-| **Ports** | Contrat d'une capacité multi-provider (CRM, email) | `.claude/skills/_shared/{crm,email}.md` |
-| **Adapters** | Ce qui connecte un skill à un outil concret (CLI / script / MCP) | `.claude/skills/_shared/providers/`, `.claude/skills/linkedin/` |
+| **Skills** | Ce que je sais faire | `.claude/skills/` (routines + skills-outils) |
+| **Skills-outils** | Encapsulent UN outil (CRM, email, LinkedIn, meeting-notes) ; contiennent leurs `adapters/` | `.claude/skills/{crm,email,linkedin,meeting-notes}/` |
 
-Le **binding** capacité→adapter est le seul endroit qui décide quel outil est utilisé,
-et il vit dans `.env` (`CRM_PROVIDER`, `EMAIL_PROVIDER`) — SSOT. Les skills ne connaissent
-jamais l'outil en dur. Ajouter un outil = 1 fichier adapter, zéro modif des skills.
+Les **routines** (`daily`, `weekly`…) parlent en capacités et référencent les
+skills-outils par leur chemin ; elles ne connaissent jamais l'outil concret. **Quel
+outil est branché** se lit dans « Outils actifs » ci-dessous (le choix), et **les
+secrets** vivent dans `.env` (les clés). Ajouter un outil = 1 fichier dans
+`skills/<capacité>/adapters/`, zéro modif des routines.
 
-Tu n'as besoin de toucher que `knowledge/` et ce fichier. Le reste fonctionne tout seul.
+Tu n'as besoin de toucher que `knowledge/`, ce fichier et `.env`. Le reste fonctionne seul.
 
-## CRM
+## Outils actifs
 
-Outil : **[CRM_PROVIDER]** — `[airtable | notion | nocodb | custom]`
-Config : voir `.env` et `.claude/skills/_shared/crm.md` pour le guide complet.
+> Le choix d'outil par capacité (le « binding »), lu par l'agent. Les clés associées
+> sont dans `.env`. Rempli par `/system init-repo`.
+
+- **CRM** : `[à remplir]` — voir `.claude/skills/crm/`
+- **Email** : `[à remplir]` (liste les comptes si plusieurs) — voir `.claude/skills/email/`
+- **LinkedIn** : Unipile — voir `.claude/skills/linkedin/`
+- **Meeting-notes** : `[à remplir, ex. Fathom]` — voir `.claude/skills/meeting-notes/`
+- **Recherche web** : firecrawl (fallback : built-in) — pas de skill dédié, outil direct
+- **Enrichissement** : FullEnrich — voir `.claude/skills/linkedin/`
 
 ## Commandes
 

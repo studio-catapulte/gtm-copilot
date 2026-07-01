@@ -6,10 +6,10 @@ Ton copilote commercial qui pilote ta prospection LinkedIn et email en 30 min/jo
 
 Le copilote tourne en 4 couches :
 
-1. **Tes outils (ports & adapters)** — les skills parlent en **capacités** (CRM, email, LinkedIn), et tu branches un **adapter** par capacité, une fois, dans `.env` :
-   - **CRM** — Airtable, Notion, NocoDB fournis en exemples ; n'importe quel CRM (HubSpot, Attio, Folks, Pipedrive…) via un adapter custom (1 fichier). `CRM_PROVIDER=`
-   - **Email + calendrier** — Gmail (CLI `gog`), Microsoft 365 (serveur MCP), ou Outlook via Unipile (legacy). `EMAIL_PROVIDER=`
-   - **LinkedIn** — via Unipile (adapter unique).
+1. **Tes outils (skills-outils & adapters)** — les routines parlent en **capacités** (CRM, email, LinkedIn, meeting-notes) ; chaque capacité est un **skill-outil** qui contient ses **adapters** (un par outil concret). Tu branches un outil par capacité, une fois, en le déclarant dans `CLAUDE.md > Outils actifs` :
+   - **CRM** — Airtable, Notion, NocoDB fournis en exemples ; n'importe quel CRM (HubSpot, Attio, Folks, Pipedrive…) via un adapter custom (1 fichier).
+   - **Email + calendrier** — Gmail (CLI `gog`), Microsoft 365 (serveur MCP), ou Outlook via Unipile (legacy).
+   - **LinkedIn** — via Unipile. **Meeting-notes** — via Fathom.
 2. **Tes comptes** — connectés une fois (OAuth / token / CLI selon l'adapter).
 3. **Le repo** — cloné chez toi, contient les skills (`.claude/skills/`, avec le code Python des intégrations embarqué dans chaque skill) et ton contexte (`knowledge/`).
 4. **Ton contexte** — qui tu es, ce que tu vends, à qui, ton ton, ta stratégie. Rempli via `/system init-repo`.
@@ -59,26 +59,28 @@ Chaque action s'invoque en double mode : phrase en français OU slash command. C
 
 ```
 knowledge/          Ce que le copilote sait sur ton business
-.claude/skills/     Ce que le copilote sait faire (skills = capacités)
-   linkedin/          capacité LinkedIn (adapter : unipile, scripts embarqués)
-   fathom/            capacité transcripts meetings (adapter : Fathom)
+.claude/skills/     Ce que le copilote sait faire
+   # routines (parlent capacités)
    daily/ weekly/ sourcing/ prep-meeting/ system/
-   _shared/           ports & adapters transverses
-      crm.md            port CRM     → providers/crm/{notion,airtable,nocodb,custom}.md
-      email.md          port email   → providers/email/{gmail-gog,ms365-mcp,unipile-outlook}.md
+   # skills-outils (encapsulent un outil + ses adapters)
+   crm/           SKILL.md (contrat) + adapters/{notion,airtable,nocodb,custom}
+   email/         SKILL.md (contrat) + adapters/{gmail-gog,ms365-mcp,unipile-outlook}
+   linkedin/      capacité LinkedIn (adapter : Unipile, scripts embarqués)
+   meeting-notes/ SKILL.md (contrat) + adapters/fathom/
 docs/               Guides setup et opérationnels
 ```
 
-**Port** = le contrat d'une capacité (opérations logiques, agnostique de l'outil).
-**Adapter** = ce qui connecte un skill à un outil concret (CLI, script, ou serveur MCP).
-Le binding capacité→adapter vit dans `.env` (`CRM_PROVIDER`, `EMAIL_PROVIDER`). Ajouter
-un outil = écrire 1 fichier adapter, sans toucher aux skills.
+**Skill-outil** = une capacité (CRM, email…) ; son `SKILL.md` porte le **contrat**
+(opérations + schéma, agnostique), ses `adapters/` disent comment faire pour chaque
+outil concret (CLI, script, ou serveur MCP). **Quel outil est branché** se déclare dans
+`CLAUDE.md > Outils actifs` ; **les clés** vivent dans `.env`. Ajouter un outil = 1
+fichier dans `adapters/`, sans toucher aux routines.
 
 ## Doc
 
 - [`docs/SETUP.md`](docs/SETUP.md) — ce que fait `/system init-repo` sous le capot, et référence des variables `.env`
-- [`.claude/skills/_shared/providers/crm/`](.claude/skills/_shared/providers/crm/) — guides par CRM (Airtable, Notion, NocoDB, custom)
-- [`.claude/skills/_shared/providers/email/`](.claude/skills/_shared/providers/email/) — adapters email (gog, ms365-mcp, unipile-outlook)
+- [`.claude/skills/crm/adapters/`](.claude/skills/crm/adapters/) — guides + mapping par CRM (Airtable, Notion, NocoDB, custom)
+- [`.claude/skills/email/adapters/`](.claude/skills/email/adapters/) — adapters email (gog, ms365-mcp, unipile-outlook)
 
 ## Support
 
