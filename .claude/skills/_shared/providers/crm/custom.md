@@ -29,7 +29,7 @@ Cette couche peut être :
 ## Variables `.env`
 
 ```
-CRM_TYPE=custom
+CRM_PROVIDER=custom
 CRM_CUSTOM_API_URL=https://crm-bridge.exemple.fr
 CRM_CUSTOM_API_KEY=xxxxx
 ```

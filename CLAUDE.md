@@ -90,7 +90,7 @@ Tu n'as besoin de toucher que `knowledge/` et ce fichier. Le reste fonctionne to
 
 ## CRM
 
-Outil : **[CRM_TYPE]** — `[airtable | notion | nocodb | custom]`
+Outil : **[CRM_PROVIDER]** — `[airtable | notion | nocodb | custom]`
 Config : voir `.env` et `.claude/skills/_shared/crm.md` pour le guide complet.
 
 ## Commandes

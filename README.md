@@ -64,7 +64,7 @@ docs/               Guides setup et opérationnels
 ## Doc
 
 - [`docs/SETUP.md`](docs/SETUP.md) — ce que fait `/system init-repo` sous le capot, et référence des variables `.env`
-- [`docs/crm/`](docs/crm/) — guides par CRM (Airtable, Notion, NocoDB, custom)
+- [`.claude/skills/_shared/providers/crm/`](.claude/skills/_shared/providers/crm/) — guides par CRM (Airtable, Notion, NocoDB, custom)
 - [`docs/operators/`](docs/operators/) — guides opérateur (génération de hosted auth links Unipile, scopes Microsoft, etc.)
 
 ## Support

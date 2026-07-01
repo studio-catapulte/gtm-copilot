@@ -57,7 +57,7 @@ Score : X/Y objectifs atteints.
 
 ### Etape 2 — Donnees CRM
 
-Query le CRM Notion :
+Query le CRM (via le port `.claude/skills/_shared/crm.md`, provider actif = `CRM_PROVIDER`) :
 
 1. **Snapshot pipeline actuel** : compter les contacts par statut
 2. **Activite de la semaine** : filtrer les contacts avec `Dernier contact >= lundi dernier` :
@@ -174,7 +174,7 @@ Pour chaque blocage mentionne, proposer un friction-killer immediat :
 | "Je sais pas qui relancer" | "J'ai X relances en retard dans le CRM, on commence par la ?" |
 | "J'attends une reponse" | "Ca fait X jours. On relance maintenant ou on passe a autre chose ?" |
 | "Mon pitch est pas au point" | "On retravaille `knowledge/pitch.md` ensemble, 15 min ?" |
-| "J'ai pas de CRM" | "Ton Notion est la. On le structure maintenant ?" |
+| "J'ai pas de CRM" | "On en branche un (Notion/Airtable/NocoDB ou le tien) et on le structure maintenant ?" |
 
 **Regle** : ne JAMAIS laisser un objectif sans plan d'execution concret.
 Si un blocage ne peut pas etre resolu maintenant, le noter et proposer une action preparatoire.

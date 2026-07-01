@@ -46,17 +46,17 @@ Demander : "Tu utilises quel CRM ? Airtable / Notion / NocoDB / Custom
 
 Selon la reponse :
 
-1. Editer `.env` pour fixer `CRM_TYPE` :
-   - Airtable → `CRM_TYPE=airtable`
-   - Notion → `CRM_TYPE=notion`
-   - NocoDB → `CRM_TYPE=nocodb`
-   - Custom → `CRM_TYPE=custom`
+1. Editer `.env` pour fixer `CRM_PROVIDER` :
+   - Airtable → `CRM_PROVIDER=airtable`
+   - Notion → `CRM_PROVIDER=notion`
+   - NocoDB → `CRM_PROVIDER=nocodb`
+   - Custom → `CRM_PROVIDER=custom`
 
 2. Pointer vers le guide de setup correspondant :
-   - Airtable → `docs/crm/airtable.md`
-   - Notion → `docs/crm/notion.md`
-   - NocoDB → `docs/crm/nocodb.md`
-   - Custom → `docs/crm/custom.md`
+   - Airtable → `.claude/skills/_shared/providers/crm/airtable.md`
+   - Notion → `.claude/skills/_shared/providers/crm/notion.md`
+   - NocoDB → `.claude/skills/_shared/providers/crm/nocodb.md`
+   - Custom → `.claude/skills/_shared/providers/crm/custom.md`
 
 3. Demander a l'utilisateur de fournir les variables `.env` correspondantes :
    - **Airtable** : `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`
