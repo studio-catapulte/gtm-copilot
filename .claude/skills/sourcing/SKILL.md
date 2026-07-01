@@ -9,7 +9,7 @@ description: |
   "remplis le pipeline", "sourcing".
 
   Utilise les outils : LinkedIn (.claude/skills/linkedin/workflows/linkedin.md),
-  Enrichissement (.claude/skills/linkedin/workflows/enrichment.md), CRM (.claude/skills/_shared/crm.md).
+  Enrichissement (.claude/skills/linkedin/workflows/enrichment.md), CRM (.claude/skills/crm/SKILL.md).
 ---
 
 # /sourcing — Recherche de nouveaux leads

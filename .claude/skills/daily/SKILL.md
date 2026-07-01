@@ -8,10 +8,10 @@ description: |
   Triggers: /daily, "routine du matin", "prospection du jour", "quoi de neuf",
   "bonjour", debut de session.
 
-  Utilise les outils : Email + Calendrier (port .claude/skills/_shared/email.md),
+  Utilise les outils : Email + Calendrier (port .claude/skills/email/SKILL.md),
   LinkedIn (.claude/skills/linkedin/workflows/linkedin.md),
   Messagerie (.claude/skills/linkedin/workflows/messaging.md),
-  CRM (port .claude/skills/_shared/crm.md).
+  CRM (port .claude/skills/crm/SKILL.md).
 ---
 
 # /daily — Routine quotidienne
@@ -60,12 +60,12 @@ On attaque ?
 
 ## Etape 1 — Check inbox (5-10 min)
 
-### 1a. Mails (via le port email)
+### 1a. Mails (via le skill email)
 
-Passer par le port `.claude/skills/_shared/email.md` : lire `EMAIL_PROVIDER` dans
-`.env`, puis suivre l'adapter actif (`gmail-gog`, `ms365-mcp` ou `unipile-outlook`).
-Operation : `list-inbox(unread_only=true, limit=50)`. Ne jamais appeler un provider
-en dur ici.
+Passer par le skill `.claude/skills/email/SKILL.md` : il lit le provider actif dans
+`CLAUDE.md > Outils actifs` et suit son adapter. Operation :
+`list-inbox(unread_only=true, limit=50)` sur chaque compte declare. Ne jamais appeler
+un provider en dur ici.
 
 Classer chaque mail non-lu :
 
@@ -77,7 +77,7 @@ Classer chaque mail non-lu :
 
 Pour chaque reponse prospect :
 1. Lire le mail complet (port email : `get(message_id)`)
-2. Chercher l'expediteur dans le CRM (port `_shared/crm.md`)
+2. Chercher l'expediteur dans le CRM (port `.claude/skills/crm/SKILL.md`)
 3. Proposer un draft de reponse (style de `knowledge/tone-of-voice.md`)
 4. Si proposition de RDV : checker la dispo d'abord (port email : `list-events(from,to)`)
 5. **Montrer le draft, attendre validation avant envoi** (port email : `send(...)`)
@@ -159,7 +159,7 @@ Pour chaque contact :
    - Finit par une question ou une proposition concrete
    - **Pas de tirets cadratins**, accents obligatoires
 4. **Montrer pour validation**
-5. Envoyer via le canal appropriate (LinkedIn : `.claude/skills/linkedin/workflows/messaging.md` — Email : port `.claude/skills/_shared/email.md`)
+5. Envoyer via le canal appropriate (LinkedIn : `.claude/skills/linkedin/workflows/messaging.md` — Email : port `.claude/skills/email/SKILL.md`)
 6. Mettre a jour le CRM : Dernier contact, Next, Notes
 
 Si un contact a atteint le max de follow-ups (voir CLAUDE.md) → proposer "Perdu" ou "Nurturing".

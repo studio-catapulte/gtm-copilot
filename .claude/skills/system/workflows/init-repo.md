@@ -46,19 +46,19 @@ Demander : "Tu utilises quel CRM ? Airtable / Notion / NocoDB / Custom
 
 Selon la reponse :
 
-1. Editer `.env` pour fixer `CRM_PROVIDER` :
-   - Airtable → `CRM_PROVIDER=airtable`
-   - Notion → `CRM_PROVIDER=notion`
-   - NocoDB → `CRM_PROVIDER=nocodb`
-   - Custom → `CRM_PROVIDER=custom`
+1. Declarer l'outil actif dans `CLAUDE.md > Outils actifs` (PAS dans `.env`) :
+   - Airtable → `- CRM : Airtable — voir skills/crm/`
+   - Notion → `- CRM : Notion (adapter notion, REST) — voir skills/crm/`
+   - NocoDB → `- CRM : NocoDB — voir skills/crm/`
+   - Custom → `- CRM : <nom> (custom) — voir skills/crm/`
 
-2. Pointer vers le guide de setup correspondant :
-   - Airtable → `.claude/skills/_shared/providers/crm/airtable.md`
-   - Notion → `.claude/skills/_shared/providers/crm/notion.md`
-   - NocoDB → `.claude/skills/_shared/providers/crm/nocodb.md`
-   - Custom → `.claude/skills/_shared/providers/crm/custom.md`
+2. Pointer vers l'adapter de setup correspondant :
+   - Airtable → `.claude/skills/crm/adapters/airtable.md`
+   - Notion → `.claude/skills/crm/adapters/notion.md`
+   - NocoDB → `.claude/skills/crm/adapters/nocodb.md`
+   - Custom → `.claude/skills/crm/adapters/custom.md`
 
-3. Demander a l'utilisateur de fournir les variables `.env` correspondantes :
+3. Demander a l'utilisateur de fournir les **secrets** `.env` correspondants :
    - **Airtable** : `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`
    - **Notion** : `NOTION_API_KEY`, `NOTION_DATABASE_ID`
    - **NocoDB** : `NOCODB_URL`, `NOCODB_TOKEN`, `NOCODB_TABLE_ID`
@@ -98,19 +98,20 @@ Si "pas pour l'instant" : noter "LinkedIn desactive", continuer.
 Demander : "Tu geres tes mails avec quoi ? Gmail (gog) / Microsoft 365 (MCP) /
 Outlook via Unipile (legacy) / pas pour l'instant"
 
-Fixer `EMAIL_PROVIDER` dans `.env` selon la reponse, puis le **setup adequat**
-(onboarding heterogene — chaque adapter a sa nature) :
+Declarer l'outil actif dans `CLAUDE.md > Outils actifs` (PAS dans `.env`), lister
+les comptes si plusieurs (ex. `Email : gog [a@x.com, b@y.com]`), puis le **setup
+adequat** (onboarding heterogene — chaque adapter a sa nature) :
 
-- **Gmail → `EMAIL_PROVIDER=gmail-gog`** : verifier que la CLI `gog` est installee
-  (`which gog`) et un compte connecte. **Pas de venv, pas de cle `.env`** (gog gere
-  son auth). Adapter : `.claude/skills/_shared/providers/email/gmail-gog.md`.
-- **Microsoft 365 → `EMAIL_PROVIDER=ms365-mcp`** : c'est un **serveur MCP**, pas un
-  script. Ajouter `@softeria/ms-365-mcp-server` a la config MCP de Claude Code
-  (preset `mail,calendar`), puis appeler le tool `login` (device code). **Pas de
-  venv.** Adapter : `.claude/skills/_shared/providers/email/ms365-mcp.md`.
-- **Outlook via Unipile (legacy) → `EMAIL_PROVIDER=unipile-outlook`** : reutilise les
-  creds Unipile (A.3) + `UNIPILE_OUTLOOK_ACCOUNT_ID`, et le **venv du skill linkedin**
-  (A.4). Adapter : `.claude/skills/_shared/providers/email/unipile-outlook.md`.
+- **Gmail → `gmail-gog`** : verifier que la CLI `gog` est installee (`which gog`) et
+  un compte connecte. **Pas de venv, pas de cle `.env`** (gog gere son auth).
+  Adapter : `.claude/skills/email/adapters/gmail-gog.md`.
+- **Microsoft 365 → `ms365-mcp`** : c'est un **serveur MCP**, pas un script. Ajouter
+  `@softeria/ms-365-mcp-server` a la config MCP de Claude Code (preset `mail,calendar`),
+  puis appeler le tool `login` (device code). **Pas de venv.**
+  Adapter : `.claude/skills/email/adapters/ms365-mcp.md`.
+- **Outlook via Unipile (legacy) → `unipile-outlook`** : reutilise les creds Unipile
+  (A.3) + `UNIPILE_OUTLOOK_ACCOUNT_ID`, et le **venv du skill linkedin** (A.4).
+  Adapter : `.claude/skills/email/adapters/unipile-outlook.md`.
 
 Si "pas pour l'instant" : noter "Email desactive", continuer.
 
@@ -126,28 +127,30 @@ Le script cree le venv et installe les dependances depuis `requirements.txt`.
 Si le venv existe deja, le script le reutilise sans casser quoi que ce soit
 (skip silencieux possible).
 
-### A.4bis — Venv Python pour Fathom (si Pack Pro / transcripts meetings)
+### A.4bis — Venv Python pour meeting-notes / Fathom (si transcripts meetings)
 
 Si `FATHOM_API_KEY` est renseignee et que le venv n'existe pas dans
-`.claude/skills/fathom/scripts/venv/` :
+`.claude/skills/meeting-notes/adapters/fathom/scripts/venv/` :
 
 ```bash
-cd .claude/skills/fathom/scripts && ./setup.sh
+cd .claude/skills/meeting-notes/adapters/fathom/scripts && ./setup.sh
 ```
 
-Meme logique idempotente que le venv Unipile. Si Fathom n'est pas utilise,
+Meme logique idempotente que le venv Unipile. Si meeting-notes n'est pas utilise,
 sauter cette etape.
 
 ### A.5 — Test des connexions
 
-Lancer un mini-test concret pour chaque service configure :
+Lancer un mini-test concret pour chaque service configure (provider actif lu dans
+`CLAUDE.md > Outils actifs`) :
 
-- **CRM configure** : lister 1 contact via l'adapter `CRM_PROVIDER` (port `_shared/crm.md`).
+- **CRM configure** : op `list-by-status("Pool")` via le skill `crm` (adapter actif).
 - **LinkedIn configure** : `linkedin_client.py search-people --keywords "test" --limit 1`.
-- **Email configure** : op `list-inbox(limit=1)` via le port `_shared/email.md`, sur
-  l'adapter `EMAIL_PROVIDER` actif (gog : `gog -a <acct> gmail search "in:inbox" -j --limit 1` ;
+- **Email configure** : op `list-inbox(limit=1)` via le skill `email`, sur l'adapter
+  actif (gog : `gog -a <acct> gmail search "in:inbox" -j --limit 1` ;
   ms365 : tool `list-mail-messages` ; unipile-outlook : `outlook_client.py emails-list --limit 1`).
-- **Fathom configure** : `fathom_client.py meetings --limit 1` (depuis `.claude/skills/fathom/scripts`, venv active).
+- **meeting-notes configure** : `fathom_client.py meetings --limit 1` (depuis
+  `.claude/skills/meeting-notes/adapters/fathom/scripts`, venv active).
 
 Reporter le resultat de chaque test :
 - OK → tu confirmes au fondateur.

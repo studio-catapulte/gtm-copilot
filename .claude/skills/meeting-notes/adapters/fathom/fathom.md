@@ -7,13 +7,13 @@ appelée par le skill `/prep-meeting`.
 ## Pré-requis
 
 - `FATHOM_API_KEY` dans `.env` à la racine du kit
-- Venv Python : `.claude/skills/fathom/scripts/venv` (créé par `bash .claude/skills/fathom/scripts/setup.sh`)
+- Venv Python : `.claude/skills/meeting-notes/adapters/fathom/scripts/venv` (créé par `bash .claude/skills/meeting-notes/adapters/fathom/scripts/setup.sh`)
 - Compte Fathom (gratuit ou premium) avec accès API activé
 
 ## Lister les meetings
 
 ```python
-import sys; sys.path.insert(0, '.claude/skills/fathom/scripts')
+import sys; sys.path.insert(0, '.claude/skills/meeting-notes/adapters/fathom/scripts')
 from fathom_client import FathomClient
 client = FathomClient()
 
@@ -53,12 +53,12 @@ meta = client.resolve("abc-def-ghi")
 ## CLI rapide
 
 ```bash
-source .claude/skills/fathom/scripts/venv/bin/activate
+source .claude/skills/meeting-notes/adapters/fathom/scripts/venv/bin/activate
 
-python .claude/skills/fathom/scripts/fathom_client.py meetings --limit 10 --with-summary
-python .claude/skills/fathom/scripts/fathom_client.py summary RECORDING_ID
-python .claude/skills/fathom/scripts/fathom_client.py transcript RECORDING_ID
-python .claude/skills/fathom/scripts/fathom_client.py resolve https://fathom.video/calls/12345
+python .claude/skills/meeting-notes/adapters/fathom/scripts/fathom_client.py meetings --limit 10 --with-summary
+python .claude/skills/meeting-notes/adapters/fathom/scripts/fathom_client.py summary RECORDING_ID
+python .claude/skills/meeting-notes/adapters/fathom/scripts/fathom_client.py transcript RECORDING_ID
+python .claude/skills/meeting-notes/adapters/fathom/scripts/fathom_client.py resolve https://fathom.video/calls/12345
 ```
 
 ## Pièges

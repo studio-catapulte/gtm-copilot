@@ -18,7 +18,7 @@ L'approche la plus simple et la plus portable :
 
 - Trois endpoints REST : `GET /prospects`, `POST /prospects`, `PATCH /prospects/{id}`
 - Authentification via header `Authorization: Bearer <token>`
-- Réponses JSON alignées avec le schéma commun (voir [`../../.claude/skills/_shared/crm.md`](../../.claude/skills/_shared/crm.md))
+- Réponses JSON alignées avec le schéma commun (voir [`../SKILL.md`](../SKILL.md))
 
 Cette couche peut être :
 
@@ -29,7 +29,6 @@ Cette couche peut être :
 ## Variables `.env`
 
 ```
-CRM_PROVIDER=custom
 CRM_CUSTOM_API_URL=https://crm-bridge.exemple.fr
 CRM_CUSTOM_API_KEY=xxxxx
 ```
@@ -38,4 +37,4 @@ Tu peux ajouter tes propres variables (par exemple `HUBSPOT_PORTAL_ID`, `PIPEDRI
 
 ## Intégration côté copilote
 
-Pour brancher concrètement le copilote sur ta couche custom, ouvre une issue sur le repo : selon les volumes et la complexité, on adapte `.claude/skills/_shared/crm.md` ou on ajoute un client dédié dans `plugins/`. Ce squelette est un point de départ, pas un mode plug-and-play complet.
+Pour brancher concrètement le copilote sur ta couche custom, ouvre une issue sur le repo : selon les volumes et la complexité, on adapte le contrat `skills/crm/SKILL.md` ou on ajoute un client dédié dans `skills/crm/adapters/`. Ce squelette est un point de départ, pas un mode plug-and-play complet.

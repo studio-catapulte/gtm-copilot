@@ -57,7 +57,7 @@ Score : X/Y objectifs atteints.
 
 ### Etape 2 — Donnees CRM
 
-Query le CRM (via le port `.claude/skills/_shared/crm.md`, provider actif = `CRM_PROVIDER`) :
+Query le CRM (via le port `.claude/skills/crm/SKILL.md`) :
 
 1. **Snapshot pipeline actuel** : compter les contacts par statut
 2. **Activite de la semaine** : filtrer les contacts avec `Dernier contact >= lundi dernier` :

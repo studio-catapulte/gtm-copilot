@@ -24,7 +24,7 @@ L'utilisateur fournit au minimum UN de ces elements :
 
 ### Etape 1 — Collecter les infos sur le prospect
 
-1. **Chercher dans le CRM** (via le port `.claude/skills/_shared/crm.md`, provider actif = `CRM_PROVIDER`) :
+1. **Chercher dans le CRM** (via le port `.claude/skills/crm/SKILL.md`) :
    - Nom, entreprise, poste, statut, notes existantes
    - Historique des echanges (champ Notes, Dernier contact)
    - **Si le contact n'est pas trouve dans le CRM** → le signaler et demander :
@@ -42,7 +42,7 @@ L'utilisateur fournit au minimum UN de ces elements :
    - Posts recents du prospect (indices sur ses preoccupations)
 
 4. **Si RDV de suivi et Pack Pro actif (Fathom disponible)** — recuperer le dernier call :
-   - Suivre `.claude/skills/fathom/workflows/fathom.md` pour resoudre le dernier
+   - Suivre `.claude/skills/meeting-notes/SKILL.md` pour resoudre le dernier
      meeting avec ce prospect (summary + action items) et repartir de ce qui a ete dit.
 
 > Regle de robustesse : chaque source ci-dessus est optionnelle. Si une source
