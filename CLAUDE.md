@@ -8,13 +8,13 @@
 Si tu vois encore des `[PLACEHOLDERS]` non remplis dans ce fichier (par exemple
 `[ENTREPRISE]`, `[PRENOM]`, `[OFFRE PRINCIPALE]`), c'est que le repo n'a pas
 encore ete configure. **AVANT de repondre quoi que ce soit a l'utilisateur,
-invoque la skill `system` avec l'argument `init`** (equivalent de `/system init`).
+invoque la skill `system` avec l'argument `init-repo`** (equivalent de `/system init-repo`).
 
 Cela orchestre le setup complet : `.env`, choix du CRM, credentials Unipile,
 venv Python, puis questions business pour remplir ce CLAUDE.md et `knowledge/`.
 
 Ne propose PAS d'etapes manuelles, ne lis PAS le README pour faire toi-meme,
-n'improvise PAS. La skill `system init` est le seul point d'entree de l'onboarding.
+n'improvise PAS. La skill `system init-repo` est le seul point d'entree de l'onboarding.
 
 Une fois les placeholders remplis, ce bloc devient sans objet (tu peux l'ignorer).
 
@@ -107,7 +107,7 @@ Config : voir `.env` et `.claude/skills/_shared/crm.md` pour le guide complet.
 
 | Dis ca | Quand | Duree |
 |--------|-------|-------|
-| "/system init" | Premiere utilisation du copilote | 15-20 min |
+| "/system init-repo" | Premiere utilisation du copilote | 15-20 min |
 | "/done" | Fin de session de travail | 2-3 min |
 
 ## Regles

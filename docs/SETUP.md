@@ -1,8 +1,8 @@
 # Setup sous le capot
 
-`/system init` orchestre l'install. Cette page explique ce qu'il fait pour les users qui veulent comprendre avant de lancer, ou pour debug.
+`/system init-repo` orchestre l'install. Cette page explique ce qu'il fait pour les users qui veulent comprendre avant de lancer, ou pour debug.
 
-## Ce que fait `/system init`
+## Ce que fait `/system init-repo`
 
 1. Vérifie/crée `.env` (depuis `.env.example`)
 2. Te demande quel CRM choisir, te guide vers `docs/crm/<type>.md`, écrit `CRM_TYPE` dans `.env`
