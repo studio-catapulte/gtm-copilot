@@ -8,7 +8,7 @@ Le copilote tourne en 4 couches :
 
 1. **Tes outils** — choisis ton CRM (Airtable, Notion, NocoDB, ou custom) et ta passerelle email/LinkedIn (Unipile pour Outlook, Gmail, LinkedIn).
 2. **Tes comptes** — connectés une fois via OAuth (LinkedIn, mail) et un token (CRM).
-3. **Le repo** — cloné chez toi, contient le code Python (`plugins/`), les commandes (`.claude/skills/`), et ton contexte (`knowledge/`).
+3. **Le repo** — cloné chez toi, contient les skills (`.claude/skills/`, avec le code Python des intégrations embarqué dans chaque skill) et ton contexte (`knowledge/`).
 4. **Ton contexte** — qui tu es, ce que tu vends, à qui, ton ton, ta stratégie. Rempli via `/system init-repo`.
 
 ## Quickstart
@@ -55,9 +55,9 @@ Chaque action s'invoque en double mode : phrase en français OU slash command. C
 
 ```
 knowledge/          Ce que le copilote sait sur ton business
-.claude/skills/     Ce que le copilote sait faire
-tools/              Schémas et docs internes
-plugins/            Code Python pour les appels API (Unipile)
+.claude/skills/     Ce que le copilote sait faire (skills autoportants :
+                    chaque intégration embarque ses scripts + workflows)
+.claude/skills/_shared/   Références transverses (contrat CRM)
 docs/               Guides setup et opérationnels
 ```
 
