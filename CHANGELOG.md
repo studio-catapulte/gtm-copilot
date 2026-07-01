@@ -2,6 +2,21 @@
 
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/).
 
+## [0.5.1] — 2026-07-01
+
+Allègement : plus de dossier `adapters/` par skill. Une install n'utilise qu'un outil
+par capacité — inutile de trimballer les autres dans le skill runtime.
+
+### Modifié
+- **Le mapping de l'outil actif est inline dans `SKILL.md`** (section « Adapter actif ») :
+  Notion (REST) pour `crm`, gog pour `email`, Fathom pour `meeting-notes`.
+- **Les guides de setup des autres outils → `docs/crm/` et `docs/email/`** (référence
+  consultée une fois, hors runtime). L'ancien `outlook_client.py` legacy vit avec son
+  guide dans `docs/email/unipile-outlook/`.
+- **`meeting-notes/` : scripts remontés à la racine du skill** (`meeting-notes/scripts/`,
+  comme `linkedin/`), fini `adapters/fathom/`.
+- Séparation nette **setup (docs/, tous les outils) vs runtime (SKILL.md, outil actif)**.
+
 ## [0.5.0] — 2026-07-01
 
 Refonte de l'architecture en **skills-outils** (validée par un challenge de 3 revues

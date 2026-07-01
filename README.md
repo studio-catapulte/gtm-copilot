@@ -6,7 +6,7 @@ Ton copilote commercial qui pilote ta prospection LinkedIn et email en 30 min/jo
 
 Le copilote tourne en 4 couches :
 
-1. **Tes outils (skills-outils & adapters)** — les routines parlent en **capacités** (CRM, email, LinkedIn, meeting-notes) ; chaque capacité est un **skill-outil** qui contient ses **adapters** (un par outil concret). Tu branches un outil par capacité, une fois, en le déclarant dans `CLAUDE.md > Outils actifs` :
+1. **Tes outils (skills-outils)** — les routines parlent en **capacités** (CRM, email, LinkedIn, meeting-notes) ; chaque capacité est un **skill-outil** dont le `SKILL.md` contient le contrat + le mapping de l'outil actif. Tu branches un outil par capacité, une fois, en le déclarant dans `CLAUDE.md > Outils actifs` :
    - **CRM** — Airtable, Notion, NocoDB fournis en exemples ; n'importe quel CRM (HubSpot, Attio, Folks, Pipedrive…) via un adapter custom (1 fichier).
    - **Email + calendrier** — Gmail (CLI `gog`), Microsoft 365 (serveur MCP), ou Outlook via Unipile (legacy).
    - **LinkedIn** — via Unipile. **Meeting-notes** — via Fathom.
@@ -62,25 +62,25 @@ knowledge/          Ce que le copilote sait sur ton business
 .claude/skills/     Ce que le copilote sait faire
    # routines (parlent capacités)
    daily/ weekly/ sourcing/ prep-meeting/ system/
-   # skills-outils (encapsulent un outil + ses adapters)
-   crm/           SKILL.md (contrat) + adapters/{notion,airtable,nocodb,custom}
-   email/         SKILL.md (contrat) + adapters/{gmail-gog,ms365-mcp,unipile-outlook}
-   linkedin/      capacité LinkedIn (adapter : Unipile, scripts embarqués)
-   meeting-notes/ SKILL.md (contrat) + adapters/fathom/
-docs/               Guides setup et opérationnels
+   # skills-outils (contrat + mapping de l'outil actif inline)
+   crm/           SKILL.md (contrat CRM + mapping de l'outil actif)
+   email/         SKILL.md (contrat email + mapping de l'outil actif)
+   linkedin/      capacité LinkedIn (Unipile, scripts embarqués)
+   meeting-notes/ SKILL.md + scripts/ (Fathom)
+docs/               Setup par outil (crm/, email/) + guides
 ```
 
 **Skill-outil** = une capacité (CRM, email…) ; son `SKILL.md` porte le **contrat**
-(opérations + schéma, agnostique), ses `adapters/` disent comment faire pour chaque
-outil concret (CLI, script, ou serveur MCP). **Quel outil est branché** se déclare dans
-`CLAUDE.md > Outils actifs` ; **les clés** vivent dans `.env`. Ajouter un outil = 1
-fichier dans `adapters/`, sans toucher aux routines.
+(opérations + schéma, agnostique) **et le mapping de l'outil actif, inline**. Les guides
+de setup des autres outils vivent dans `docs/{crm,email}/`. **Quel outil est branché**
+se déclare dans `CLAUDE.md > Outils actifs` ; **les clés** vivent dans `.env`. Changer
+d'outil = adapter la section « Adapter actif » du skill, sans toucher aux routines.
 
 ## Doc
 
 - [`docs/SETUP.md`](docs/SETUP.md) — ce que fait `/system init-repo` sous le capot, et référence des variables `.env`
-- [`.claude/skills/crm/adapters/`](.claude/skills/crm/adapters/) — guides + mapping par CRM (Airtable, Notion, NocoDB, custom)
-- [`.claude/skills/email/adapters/`](.claude/skills/email/adapters/) — adapters email (gog, ms365-mcp, unipile-outlook)
+- [`docs/crm/`](docs/crm/) — guides de setup par CRM (Airtable, Notion, NocoDB, custom)
+- [`docs/email/`](docs/email/) — setup email (gog, ms365-mcp, unipile-outlook)
 
 ## Support
 

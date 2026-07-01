@@ -2,7 +2,7 @@
 
 Adapter email/calendrier via l'API Unipile (Outlook connecte). **Legacy** : privilegier
 `gmail-gog` ou `ms365-mcp`. Conserve pour les installs Unipile-Outlook existantes.
-Implemente le port `../SKILL.md`. Actif si déclaré dans `CLAUDE.md > Outils actifs`.
+Implemente le port `../../../.claude/skills/email/SKILL.md`. Actif si déclaré dans `CLAUDE.md > Outils actifs`.
 
 > Couplage assume : ce client reutilise le **cœur Unipile de l'adapter `linkedin`**
 > (`unipile_auth.py` + son venv). Il n'est pas totalement autoportant — c'est le prix
@@ -21,13 +21,13 @@ OAuth pour les scopes mail + calendrier), puis recuperer l'`account_id` dans Acc
 
 ## Invocation
 
-Le script vit ici (`.claude/skills/email/adapters/outlook_client.py`) mais importe
+Le script vit ici (`./outlook_client.py` (co-localisé ici)) mais importe
 `unipile_auth` du skill `linkedin`. Activer le venv linkedin et exposer ses scripts :
 
 ```bash
 source .claude/skills/linkedin/scripts/venv/bin/activate
 PYTHONPATH=.claude/skills/linkedin/scripts \
-  python .claude/skills/.claude/skills/email/adapters/outlook_client.py \
+  python docs/email/unipile-outlook/outlook_client.py \
   --user <nom> <sous-commande> [options]
 ```
 

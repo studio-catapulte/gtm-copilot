@@ -15,16 +15,16 @@ description: |
 # /crm — Capacite CRM
 
 Ce skill-tool encapsule l'acces au CRM. Il contient **le contrat** (schema + operations,
-stable quel que soit l'outil) et **les adapters** (comment faire concretement, un par
-outil dans `adapters/`). L'outil actif est declare dans `CLAUDE.md > Outils actifs`.
+stable quel que soit l'outil) et, inline, le **mapping de l'outil actif**. Les guides de
+setup des autres CRM vivent dans `docs/crm/`. L'outil actif est declare dans
+`CLAUDE.md > Outils actifs`.
 
-## Provider actif
+## Outil actif
 
-Lire `CLAUDE.md > Outils actifs` pour savoir quel CRM est branche, puis suivre son
-adapter dans `adapters/<provider>.md` (mapping concret des operations ci-dessous +
-setup). Adapters fournis : `notion`, `airtable`, `nocodb`, `custom`. En brancher un
-autre (HubSpot, Attio, Folks…) = ecrire 1 fichier `adapters/<x>.md` qui mappe le
-contrat ci-dessous, et le declarer dans CLAUDE.md.
+Declare dans `CLAUDE.md > Outils actifs`. Le mapping concret des operations de l'outil
+actif est **inline plus bas** (section « Adapter actif »). Pour brancher / changer de
+CRM : les guides de setup de chaque option (Notion, Airtable, NocoDB, custom) sont dans
+`docs/crm/` ; recopie/adapte alors la section « Adapter actif » ci-dessous.
 
 ---
 
@@ -65,6 +65,40 @@ adapter les mappe sur son API/CLI/MCP.
 | `count-by-status()` | KPIs (bilan hebdo) |
 
 ---
+
+## Adapter actif — Notion (REST)
+
+> Defaut fourni. Setup (integration, database id) : `docs/crm/notion.md`. Cle statique
+> `NOTION_API_KEY` → **headless-safe** (convient aux routines cron). API
+> `https://api.notion.com/v1`, headers : `Authorization: Bearer $NOTION_API_KEY`,
+> `Notion-Version: 2022-06-28`, `Content-Type: application/json`.
+
+Mapping des operations du contrat :
+
+- **`list-by-status` / `filter-by-action-date`** → `POST /databases/$NOTION_DATABASE_ID/query` avec filtre :
+  ```bash
+  curl -s -X POST "https://api.notion.com/v1/databases/$NOTION_DATABASE_ID/query" \
+    -H "Authorization: Bearer $NOTION_API_KEY" -H "Notion-Version: 2022-06-28" \
+    -H "Content-Type: application/json" \
+    -d '{"filter":{"property":"Statut pipeline","select":{"equals":"Pool"}}}'
+  ```
+  Date (follow-ups) : `{"filter":{"property":"Date derniere action","date":{"on_or_before":"2026-07-01"}}}`.
+- **`find`** → meme endpoint, filtre `LinkedIn URL` (`{"property":"LinkedIn URL","url":{"equals":"..."}}`) — chercher par URL d'abord pour la dedup.
+- **`create`** → `POST /pages` :
+  ```bash
+  curl -s -X POST "https://api.notion.com/v1/pages" \
+    -H "Authorization: Bearer $NOTION_API_KEY" -H "Notion-Version: 2022-06-28" \
+    -H "Content-Type: application/json" \
+    -d '{"parent":{"database_id":"'"$NOTION_DATABASE_ID"'"},"properties":{
+        "Name":{"title":[{"text":{"content":"Jane Doe"}}]},
+        "Statut pipeline":{"select":{"name":"Pool"}},
+        "LinkedIn URL":{"url":"https://linkedin.com/in/janedoe"}}}'
+  ```
+- **`update`** → `PATCH /pages/<page_id>` avec le sous-objet `properties` a modifier.
+- **`count-by-status`** → paginer la query (100/page, suivre `next_cursor`) et compter par valeur de `Statut pipeline`.
+
+Types Notion : `Name`=title, selects=`select.name`, URL=`url`, Date=`date.start`,
+textes longs=`rich_text`. Une valeur de Statut hors des 8 du contrat = rejet API.
 
 ## Regles
 

@@ -5,7 +5,7 @@
 ## Ce que fait `/system init-repo`
 
 1. Vérifie/crée `.env` (depuis `.env.example`)
-2. Te demande quel CRM choisir, te guide vers `.claude/skills/crm/adapters/<type>.md`, déclare l'outil dans `CLAUDE.md > Outils actifs` (les secrets vont dans `.env`)
+2. Te demande quel CRM choisir, te guide vers `docs/crm/<type>.md`, déclare l'outil dans `CLAUDE.md > Outils actifs` (les secrets vont dans `.env`)
 3. Te demande tes credentials Unipile (DSN, API key, account_id par provider)
 4. Lance `.claude/skills/linkedin/scripts/setup.sh` (crée le venv Python si absent)
 5. Teste les connexions CRM + Unipile
@@ -41,6 +41,6 @@ Provider actif déclaré dans `CLAUDE.md > Outils actifs`. Secrets par adapter :
 - Airtable : `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`
 - Notion : `NOTION_API_KEY`, `NOTION_DATABASE_ID`
 - NocoDB : `NOCODB_URL`, `NOCODB_TOKEN`, `NOCODB_TABLE_ID`
-- Custom : `CRM_CUSTOM_API_URL`, `CRM_CUSTOM_API_KEY` (voir `.claude/skills/crm/adapters/custom.md`)
+- Custom : `CRM_CUSTOM_API_URL`, `CRM_CUSTOM_API_KEY` (voir `docs/crm/custom.md`)
 
-Voir [`.claude/skills/crm/adapters/`](../.claude/skills/crm/adapters/) pour les guides détaillés + mapping d'opérations par CRM.
+Voir [`docs/crm/`](crm/) pour les guides détaillés + mapping d'opérations par CRM.

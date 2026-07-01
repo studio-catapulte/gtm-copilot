@@ -29,7 +29,7 @@ Dans NocoDB :
 | Date dernière action | Date | |
 | Notes | LongText | |
 
-Schéma aligné avec [`../SKILL.md`](../SKILL.md).
+Schéma aligné avec [`../../.claude/skills/crm/SKILL.md`](../../.claude/skills/crm/SKILL.md).
 
 ## Étape 3 — Générer un API token
 
