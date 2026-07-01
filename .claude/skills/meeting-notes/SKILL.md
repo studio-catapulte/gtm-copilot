@@ -20,12 +20,12 @@ minuscule et vraiment agnostique — d'ou l'interet d'un adapter.
 
 ## Provider actif
 
-Lire `CLAUDE.md > Outils actifs`, puis suivre l'adapter dans `adapters/<provider>/`.
+Lire `CLAUDE.md > Outils actifs`. L'adapter actif (Fathom) est inline plus bas ; sa config detaillee est dans `fathom-reference.md`.
 
-Adapter fourni : **`fathom`** (API REST, headless-safe). D'autres outils du marche
-(Fireflies = MCP, tl;dv = REST, Granola = local-first sans API headless fiable)
-peuvent etre branches en ecrivant `adapters/<x>/` — non fournis pour ne pas promettre
-ce qu'on ne maintient pas.
+Outil fourni : **Fathom** (API REST, headless-safe ; mapping inline + `scripts/`).
+D'autres outils du marche (Fireflies = MCP, tl;dv = REST, Granola = local-first sans
+API headless fiable) peuvent etre branches en remplacant la section « Adapter actif »
+— non fournis pour ne pas promettre ce qu'on ne maintient pas.
 
 ---
 
@@ -46,19 +46,19 @@ ce qu'on ne maintient pas.
 Setup (venv, idempotent — aussi appele par `/system init-repo`) :
 
 ```bash
-cd .claude/skills/meeting-notes/adapters/fathom/scripts && ./setup.sh
+cd .claude/skills/meeting-notes/scripts && ./setup.sh
 ```
 
 Invocation :
 
 ```bash
-cd .claude/skills/meeting-notes/adapters/fathom/scripts && source venv/bin/activate
+cd .claude/skills/meeting-notes/scripts && source venv/bin/activate
 python fathom_client.py meetings --limit 10
 python fathom_client.py resolve <call_id_ou_url>   # → recording_id
 python fathom_client.py transcript <recording_id>
 ```
 
-Détails d'invocation + notes API : `adapters/fathom/fathom.md`. Cle requise :
+Détails d'invocation + notes API : `fathom-reference.md`. Cle requise :
 `FATHOM_API_KEY` dans `.env`. Un `call_id` (numero d'URL `/calls/<id>`) n'est PAS un
 `recording_id` : le resoudre via `resolve` d'abord.
 

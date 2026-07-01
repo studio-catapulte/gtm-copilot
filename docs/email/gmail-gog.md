@@ -1,6 +1,6 @@
 # Adapter email — gmail-gog
 
-Mappe le port `../SKILL.md` sur la CLI **`gog`** (Google : Gmail + Calendar).
+Mappe le port `../../.claude/skills/email/SKILL.md` sur la CLI **`gog`** (Google : Gmail + Calendar).
 Provider par defaut pour un ecosysteme Google.
 
 ## Pre-requis

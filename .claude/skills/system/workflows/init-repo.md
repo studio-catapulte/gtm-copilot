@@ -53,10 +53,10 @@ Selon la reponse :
    - Custom → `- CRM : <nom> (custom) — voir skills/crm/`
 
 2. Pointer vers l'adapter de setup correspondant :
-   - Airtable → `.claude/skills/crm/adapters/airtable.md`
-   - Notion → `.claude/skills/crm/adapters/notion.md`
-   - NocoDB → `.claude/skills/crm/adapters/nocodb.md`
-   - Custom → `.claude/skills/crm/adapters/custom.md`
+   - Airtable → `docs/crm/airtable.md`
+   - Notion → `docs/crm/notion.md`
+   - NocoDB → `docs/crm/nocodb.md`
+   - Custom → `docs/crm/custom.md`
 
 3. Demander a l'utilisateur de fournir les **secrets** `.env` correspondants :
    - **Airtable** : `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`
@@ -104,14 +104,14 @@ adequat** (onboarding heterogene — chaque adapter a sa nature) :
 
 - **Gmail → `gmail-gog`** : verifier que la CLI `gog` est installee (`which gog`) et
   un compte connecte. **Pas de venv, pas de cle `.env`** (gog gere son auth).
-  Adapter : `.claude/skills/email/adapters/gmail-gog.md`.
+  Adapter : `docs/email/gmail-gog.md`.
 - **Microsoft 365 → `ms365-mcp`** : c'est un **serveur MCP**, pas un script. Ajouter
   `@softeria/ms-365-mcp-server` a la config MCP de Claude Code (preset `mail,calendar`),
   puis appeler le tool `login` (device code). **Pas de venv.**
-  Adapter : `.claude/skills/email/adapters/ms365-mcp.md`.
+  Adapter : `docs/email/ms365-mcp.md`.
 - **Outlook via Unipile (legacy) → `unipile-outlook`** : reutilise les creds Unipile
   (A.3) + `UNIPILE_OUTLOOK_ACCOUNT_ID`, et le **venv du skill linkedin** (A.4).
-  Adapter : `.claude/skills/email/adapters/unipile-outlook.md`.
+  Adapter : `docs/email/unipile-outlook/README.md`.
 
 Si "pas pour l'instant" : noter "Email desactive", continuer.
 
@@ -130,10 +130,10 @@ Si le venv existe deja, le script le reutilise sans casser quoi que ce soit
 ### A.4bis — Venv Python pour meeting-notes / Fathom (si transcripts meetings)
 
 Si `FATHOM_API_KEY` est renseignee et que le venv n'existe pas dans
-`.claude/skills/meeting-notes/adapters/fathom/scripts/venv/` :
+`.claude/skills/meeting-notes/scripts/venv/` :
 
 ```bash
-cd .claude/skills/meeting-notes/adapters/fathom/scripts && ./setup.sh
+cd .claude/skills/meeting-notes/scripts && ./setup.sh
 ```
 
 Meme logique idempotente que le venv Unipile. Si meeting-notes n'est pas utilise,
@@ -150,7 +150,7 @@ Lancer un mini-test concret pour chaque service configure (provider actif lu dan
   actif (gog : `gog -a <acct> gmail search "in:inbox" -j --limit 1` ;
   ms365 : tool `list-mail-messages` ; unipile-outlook : `outlook_client.py emails-list --limit 1`).
 - **meeting-notes configure** : `fathom_client.py meetings --limit 1` (depuis
-  `.claude/skills/meeting-notes/adapters/fathom/scripts`, venv active).
+  `.claude/skills/meeting-notes/scripts`, venv active).
 
 Reporter le resultat de chaque test :
 - OK → tu confirmes au fondateur.

@@ -1,6 +1,6 @@
 # Adapter email — ms365-mcp
 
-Mappe le port `../SKILL.md` sur le **serveur MCP `@softeria/ms-365-mcp-server`**
+Mappe le port `../../.claude/skills/email/SKILL.md` sur le **serveur MCP `@softeria/ms-365-mcp-server`**
 (Microsoft Graph : Outlook Mail + Calendar). Provider pour un ecosysteme Microsoft 365.
 
 ## Nature : adapter MCP (pas de script, pas de venv)

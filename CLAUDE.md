@@ -83,13 +83,14 @@ Le copilote s'appuie sur 3 choses :
 |---------|------|----|
 | **Knowledge** | Ce que je sais sur ton business | `knowledge/` |
 | **Skills** | Ce que je sais faire | `.claude/skills/` (routines + skills-outils) |
-| **Skills-outils** | Encapsulent UN outil (CRM, email, LinkedIn, meeting-notes) ; contiennent leurs `adapters/` | `.claude/skills/{crm,email,linkedin,meeting-notes}/` |
+| **Skills-outils** | Encapsulent UN outil (CRM, email, LinkedIn, meeting-notes) : contrat + mapping de l'outil actif inline | `.claude/skills/{crm,email,linkedin,meeting-notes}/` |
 
 Les **routines** (`daily`, `weekly`…) parlent en capacités et référencent les
 skills-outils par leur chemin ; elles ne connaissent jamais l'outil concret. **Quel
 outil est branché** se lit dans « Outils actifs » ci-dessous (le choix), et **les
-secrets** vivent dans `.env` (les clés). Ajouter un outil = 1 fichier dans
-`skills/<capacité>/adapters/`, zéro modif des routines.
+secrets** vivent dans `.env` (les clés). Les guides de setup des outils non-actifs
+sont dans `docs/{crm,email}/`. Changer d'outil = adapter la section « Adapter actif »
+du skill concerné, zéro modif des routines.
 
 Tu n'as besoin de toucher que `knowledge/`, ce fichier et `.env`. Le reste fonctionne seul.
 
