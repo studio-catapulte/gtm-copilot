@@ -38,6 +38,10 @@ L'utilisateur fournit au minimum UN de ces elements :
    - Entreprise : taille, specialites
    - Posts recents du prospect (indices sur ses preoccupations)
 
+4. **Si RDV de suivi et Pack Pro actif (Fathom disponible)** — recuperer le dernier call :
+   - Suivre `.claude/skills/fathom/workflows/fathom.md` pour resoudre le dernier
+     meeting avec ce prospect (summary + action items) et repartir de ce qui a ete dit.
+
 ### Etape 2 — Matcher avec la knowledge base
 
 Lire les fichiers dans `knowledge/` pour preparer les angles :
