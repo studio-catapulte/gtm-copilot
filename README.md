@@ -6,8 +6,11 @@ Ton copilote commercial qui pilote ta prospection LinkedIn et email en 30 min/jo
 
 Le copilote tourne en 4 couches :
 
-1. **Tes outils** — choisis ton CRM (Airtable, Notion, NocoDB, ou custom) et ta passerelle email/LinkedIn (Unipile pour Outlook, Gmail, LinkedIn).
-2. **Tes comptes** — connectés une fois via OAuth (LinkedIn, mail) et un token (CRM).
+1. **Tes outils (ports & adapters)** — les skills parlent en **capacités** (CRM, email, LinkedIn), et tu branches un **adapter** par capacité, une fois, dans `.env` :
+   - **CRM** — Airtable, Notion, NocoDB fournis en exemples ; n'importe quel CRM (HubSpot, Attio, Folks, Pipedrive…) via un adapter custom (1 fichier). `CRM_PROVIDER=`
+   - **Email + calendrier** — Gmail (CLI `gog`), Microsoft 365 (serveur MCP), ou Outlook via Unipile (legacy). `EMAIL_PROVIDER=`
+   - **LinkedIn** — via Unipile (adapter unique).
+2. **Tes comptes** — connectés une fois (OAuth / token / CLI selon l'adapter).
 3. **Le repo** — cloné chez toi, contient les skills (`.claude/skills/`, avec le code Python des intégrations embarqué dans chaque skill) et ton contexte (`knowledge/`).
 4. **Ton contexte** — qui tu es, ce que tu vends, à qui, ton ton, ta stratégie. Rempli via `/system init-repo`.
 
@@ -26,7 +29,7 @@ Puis ouvre Claude Code **dans le dossier** (`claude` depuis `gtm-copilot/`, pas 
 - **Mode explicite** : tape `/system init-repo`
 - **Mode naturel** : dis simplement "premiere fois", "initialise le repo", ou "salut"
 
-L'onboarding orchestre tout : choix du CRM, creds Unipile, setup du venv Python, contexte business à partir de tes pointeurs (URL LinkedIn, site web, doc commerciale). Compte ~20-25 min selon ce que tu fournis.
+L'onboarding orchestre tout : choix des adapters (CRM, email, LinkedIn), setup adapté à chacun (CLI / MCP / venv Python), contexte business à partir de tes pointeurs (URL LinkedIn, site web, doc commerciale). Compte ~20-25 min selon ce que tu fournis.
 
 Une fois fini, lance ta première routine en tapant : "Routine du matin".
 
@@ -35,7 +38,8 @@ Une fois fini, lance ta première routine en tapant : "Routine du matin".
 ## Pré-requis
 
 - [Claude Code](https://claude.ai) installé (abonnement Claude Pro)
-- Un compte [Unipile](https://www.unipile.com) (gratuit pour démarrer)
+- Pour LinkedIn : un compte [Unipile](https://www.unipile.com) (gratuit pour démarrer)
+- Pour l'email : au choix la CLI [`gog`](https://github.com/) (Gmail) ou [`@softeria/ms-365-mcp-server`](https://github.com/Softeria/ms-365-mcp-server) (Microsoft 365)
 - Un CRM de ton choix (Airtable gratuit, Notion gratuit, NocoDB self-hosted, ou ta propre stack)
 
 ## Commandes
@@ -55,16 +59,25 @@ Chaque action s'invoque en double mode : phrase en français OU slash command. C
 
 ```
 knowledge/          Ce que le copilote sait sur ton business
-.claude/skills/     Ce que le copilote sait faire (skills autoportants :
-                    chaque intégration embarque ses scripts + workflows)
-.claude/skills/_shared/   Références transverses (contrat CRM)
+.claude/skills/     Ce que le copilote sait faire (skills = capacités)
+   linkedin/          capacité LinkedIn (adapter : unipile, scripts embarqués)
+   fathom/            capacité transcripts meetings (adapter : Fathom)
+   daily/ weekly/ sourcing/ prep-meeting/ system/
+   _shared/           ports & adapters transverses
+      crm.md            port CRM     → providers/crm/{notion,airtable,nocodb,custom}.md
+      email.md          port email   → providers/email/{gmail-gog,ms365-mcp,unipile-outlook}.md
 docs/               Guides setup et opérationnels
 ```
+
+**Port** = le contrat d'une capacité (opérations logiques, agnostique de l'outil).
+**Adapter** = ce qui connecte un skill à un outil concret (CLI, script, ou serveur MCP).
+Le binding capacité→adapter vit dans `.env` (`CRM_PROVIDER`, `EMAIL_PROVIDER`). Ajouter
+un outil = écrire 1 fichier adapter, sans toucher aux skills.
 
 ## Doc
 
 - [`docs/SETUP.md`](docs/SETUP.md) — ce que fait `/system init-repo` sous le capot, et référence des variables `.env`
-- [`docs/crm/`](docs/crm/) — guides par CRM (Airtable, Notion, NocoDB, custom)
+- [`.claude/skills/_shared/providers/crm/`](.claude/skills/_shared/providers/crm/) — guides par CRM (Airtable, Notion, NocoDB, custom)
 - [`docs/operators/`](docs/operators/) — guides opérateur (génération de hosted auth links Unipile, scopes Microsoft, etc.)
 
 ## Support

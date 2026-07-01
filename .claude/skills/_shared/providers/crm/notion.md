@@ -37,7 +37,7 @@ Le schéma est aligné avec le contrat décrit dans [`../../.claude/skills/_shar
 ## Étape 4 — Configurer `.env`
 
 ```
-CRM_TYPE=notion
+CRM_PROVIDER=notion
 NOTION_API_KEY=secret_xxx
 NOTION_DATABASE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```

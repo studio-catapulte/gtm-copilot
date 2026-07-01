@@ -1,15 +1,28 @@
-# CRM — Schéma et configuration
+# Port CRM — Schéma et configuration
 
-Le copilote utilise un CRM comme source de vérité de tes prospects et deals. 4 modes supportés : Airtable, Notion, NocoDB, ou un CRM custom.
+**Port** (contrat agnostique) : le copilote utilise un CRM comme source de vérité
+de tes prospects et deals. Les skills parlent à ce port, jamais à un CRM en dur.
 
-## Choisir son CRM
+## Binding
+
+```
+CRM_PROVIDER=notion     # ou airtable, nocodb, custom, ...
+```
+
+Lire `CRM_PROVIDER`, puis suivre l'adapter correspondant dans
+`providers/crm/<provider>.md`. Les adapters fournis (Notion / Airtable / NocoDB /
+custom) sont des **exemples** : la liste est ouverte. Brancher un vrai CRM
+(HubSpot, Attio, Folks, Pipedrive…) = écrire **1 fichier** `providers/crm/<x>.md`
+qui mappe le schéma commun ci-dessous sur son API, et poser `CRM_PROVIDER=<x>`.
+
+## Choisir son CRM (adapters exemples)
 
 | CRM | Pour qui | Setup | Guide |
 |---|---|---|---|
-| Airtable | Solo, simple, rapide | 5 min | [`docs/crm/airtable.md`](../docs/crm/airtable.md) |
-| Notion | Déjà sur Notion | 10 min | [`docs/crm/notion.md`](../docs/crm/notion.md) |
-| NocoDB | Self-hosted, open-source | 10 min | [`docs/crm/nocodb.md`](../docs/crm/nocodb.md) |
-| Custom | Stack existante (HubSpot, Pipedrive...) | variable | [`docs/crm/custom.md`](../docs/crm/custom.md) |
+| Airtable | Solo, simple, rapide | 5 min | [`.claude/skills/_shared/providers/crm/airtable.md`](providers/crm/airtable.md) |
+| Notion | Déjà sur Notion | 10 min | [`.claude/skills/_shared/providers/crm/notion.md`](providers/crm/notion.md) |
+| NocoDB | Self-hosted, open-source | 10 min | [`.claude/skills/_shared/providers/crm/nocodb.md`](providers/crm/nocodb.md) |
+| Custom | Stack existante (HubSpot, Pipedrive...) | variable | [`.claude/skills/_shared/providers/crm/custom.md`](providers/crm/custom.md) |
 
 ## Schéma commun
 
@@ -31,7 +44,7 @@ Quel que soit le CRM choisi, la table `Prospects` doit contenir ces champs :
 
 Ajoute dans ton `.env` :
 
-- `CRM_TYPE=` (airtable / notion / nocodb / custom)
+- `CRM_PROVIDER=` (airtable / notion / nocodb / custom)
 - Les variables spécifiques au CRM choisi (voir le guide correspondant)
 
 ## Comportement attendu

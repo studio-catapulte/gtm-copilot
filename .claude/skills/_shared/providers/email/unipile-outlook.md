@@ -1,29 +1,36 @@
-# Unipile Outlook — Email + Calendar
+# Adapter email — unipile-outlook (LEGACY)
 
-Wrapper technique pour piloter les boites Outlook connectees via l'API Unipile.
-Ce fichier est une reference interne, appelee par les skills `/inbox`, `/briefing`, `/prep-meeting`.
+Adapter email/calendrier via l'API Unipile (Outlook connecte). **Legacy** : privilegier
+`gmail-gog` ou `ms365-mcp`. Conserve pour les installs Unipile-Outlook existantes.
+Implemente le port `_shared/email.md`. Active via `EMAIL_PROVIDER=unipile-outlook`.
+
+> Couplage assume : ce client reutilise le **cœur Unipile de l'adapter `linkedin`**
+> (`unipile_auth.py` + son venv). Il n'est pas totalement autoportant — c'est le prix
+> du statut legacy.
 
 ## Prerequis
 
-- `.claude/skills/unipile/scripts/unipile-config.json` contient `api_key`, `dsn`, et au moins
-  une entree `services.unipile-outlook.<user>.account_id`
-- Les comptes Outlook sont connectes dans Unipile (OAuth Microsoft via dashboard)
-- **Scopes calendar actives** dans Dashboard Unipile -> Settings -> Microsoft OAuth
-- Venv Python : `.claude/skills/unipile/scripts/venv`
+- Compte Outlook connecte dans Unipile (OAuth Microsoft), **scopes calendar actives**
+  (Dashboard Unipile -> Settings -> Microsoft OAuth).
+- Credentials Unipile dans `.env` (partages avec l'adapter `linkedin`).
+- Venv Python : celui du skill `linkedin` (`.claude/skills/linkedin/scripts/venv`),
+  qui fournit `requests` + `unipile_auth`.
 
 Si les comptes ne sont pas connectes, voir `docs/operators/unipile-outlook.md`.
 
 ## Invocation
 
-Toutes les commandes passent par le client Python :
+Le script vit ici (`_shared/providers/email/outlook_client.py`) mais importe
+`unipile_auth` du skill `linkedin`. Activer le venv linkedin et exposer ses scripts :
 
 ```bash
-cd .claude/skills/unipile/scripts && source venv/bin/activate
-python outlook_client.py --user <nom> <sous-commande> [options]
+source .claude/skills/linkedin/scripts/venv/bin/activate
+PYTHONPATH=.claude/skills/linkedin/scripts \
+  python .claude/skills/_shared/providers/email/outlook_client.py \
+  --user <nom> <sous-commande> [options]
 ```
 
-Le `<nom>` est la clef definie dans `unipile-config.json` sous
-`services.unipile-outlook.<nom>.account_id`.
+Le `<nom>` est la clef du compte Outlook (var `.env` / config Unipile).
 
 ## Sous-commandes
 

@@ -46,17 +46,17 @@ Demander : "Tu utilises quel CRM ? Airtable / Notion / NocoDB / Custom
 
 Selon la reponse :
 
-1. Editer `.env` pour fixer `CRM_TYPE` :
-   - Airtable → `CRM_TYPE=airtable`
-   - Notion → `CRM_TYPE=notion`
-   - NocoDB → `CRM_TYPE=nocodb`
-   - Custom → `CRM_TYPE=custom`
+1. Editer `.env` pour fixer `CRM_PROVIDER` :
+   - Airtable → `CRM_PROVIDER=airtable`
+   - Notion → `CRM_PROVIDER=notion`
+   - NocoDB → `CRM_PROVIDER=nocodb`
+   - Custom → `CRM_PROVIDER=custom`
 
 2. Pointer vers le guide de setup correspondant :
-   - Airtable → `docs/crm/airtable.md`
-   - Notion → `docs/crm/notion.md`
-   - NocoDB → `docs/crm/nocodb.md`
-   - Custom → `docs/crm/custom.md`
+   - Airtable → `.claude/skills/_shared/providers/crm/airtable.md`
+   - Notion → `.claude/skills/_shared/providers/crm/notion.md`
+   - NocoDB → `.claude/skills/_shared/providers/crm/nocodb.md`
+   - Custom → `.claude/skills/_shared/providers/crm/custom.md`
 
 3. Demander a l'utilisateur de fournir les variables `.env` correspondantes :
    - **Airtable** : `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`
@@ -74,39 +74,52 @@ Si l'utilisateur dit "j'ai pas encore de CRM" : passer au suivant, noter
 "CRM desactive" pour le recap final, expliquer qu'il pourra activer plus
 tard en relancant `/system init-repo` ou en remplissant `.env` a la main.
 
-### A.3 — Credentials Unipile
+### A.3 — LinkedIn (adapter Unipile)
 
-Demander : "Tu connectes quoi via Unipile ? Plusieurs choix possibles :
-LinkedIn / Outlook / Gmail / aucun pour l'instant"
+Demander : "Tu connectes LinkedIn (via Unipile) ? oui / pas pour l'instant"
 
-Si au moins un provider est choisi :
+Si oui :
 
 1. Demander `UNIPILE_DSN` (URL du dashboard, doit inclure le scheme `https://`).
 2. Demander `UNIPILE_API_KEY`.
-3. Pour chaque provider choisi, demander l'`account_id` correspondant :
-   - LinkedIn → `UNIPILE_LINKEDIN_ACCOUNT_ID`
-   - Outlook → `UNIPILE_OUTLOOK_ACCOUNT_ID`
-   - Gmail → `UNIPILE_GMAIL_ACCOUNT_ID`
+3. Demander `UNIPILE_LINKEDIN_ACCOUNT_ID`.
 4. Editer `.env` avec les valeurs collees.
 
-L'utilisateur recupere ces valeurs dans son dashboard Unipile :
-- DSN et API key dans Settings > API.
-- Chaque `account_id` dans Accounts > <provider> apres l'OAuth correspondant.
+Valeurs dans le dashboard Unipile : DSN + API key dans Settings > API ;
+`account_id` dans Accounts > LinkedIn apres l'OAuth.
 
-⚠️ **Piege classique** : un compte Unipile != un account_id. Unipile cree un
-account_id par provider OAuth. Si l'utilisateur a connecte LinkedIn ET Outlook,
-il a 2 account_id distincts a remplir dans 2 variables differentes.
+⚠️ **Piege classique** : un compte Unipile != un account_id (un account_id par
+provider OAuth). L'email ne passe PLUS par Unipile ici (voir A.3bis).
 
-Si l'utilisateur dit "pas encore" : noter "Unipile desactive" pour le recap,
-on passe a la suite. Les commandes LinkedIn/email seront simplement
-indisponibles tant que les variables ne sont pas remplies.
+Si "pas pour l'instant" : noter "LinkedIn desactive", continuer.
+
+### A.3bis — Email + Calendrier (choix du provider)
+
+Demander : "Tu geres tes mails avec quoi ? Gmail (gog) / Microsoft 365 (MCP) /
+Outlook via Unipile (legacy) / pas pour l'instant"
+
+Fixer `EMAIL_PROVIDER` dans `.env` selon la reponse, puis le **setup adequat**
+(onboarding heterogene — chaque adapter a sa nature) :
+
+- **Gmail → `EMAIL_PROVIDER=gmail-gog`** : verifier que la CLI `gog` est installee
+  (`which gog`) et un compte connecte. **Pas de venv, pas de cle `.env`** (gog gere
+  son auth). Adapter : `.claude/skills/_shared/providers/email/gmail-gog.md`.
+- **Microsoft 365 → `EMAIL_PROVIDER=ms365-mcp`** : c'est un **serveur MCP**, pas un
+  script. Ajouter `@softeria/ms-365-mcp-server` a la config MCP de Claude Code
+  (preset `mail,calendar`), puis appeler le tool `login` (device code). **Pas de
+  venv.** Adapter : `.claude/skills/_shared/providers/email/ms365-mcp.md`.
+- **Outlook via Unipile (legacy) → `EMAIL_PROVIDER=unipile-outlook`** : reutilise les
+  creds Unipile (A.3) + `UNIPILE_OUTLOOK_ACCOUNT_ID`, et le **venv du skill linkedin**
+  (A.4). Adapter : `.claude/skills/_shared/providers/email/unipile-outlook.md`.
+
+Si "pas pour l'instant" : noter "Email desactive", continuer.
 
 ### A.4 — Venv Python pour Unipile
 
-Si le venv n'existe pas dans `.claude/skills/unipile/scripts/venv/` :
+Si le venv n'existe pas dans `.claude/skills/linkedin/scripts/venv/` :
 
 ```bash
-cd .claude/skills/unipile/scripts && ./setup.sh
+cd .claude/skills/linkedin/scripts && ./setup.sh
 ```
 
 Le script cree le venv et installe les dependances depuis `requirements.txt`.
@@ -129,10 +142,11 @@ sauter cette etape.
 
 Lancer un mini-test concret pour chaque service configure :
 
-- **CRM configure** : tenter de lister 1 contact via le client CRM correspondant.
+- **CRM configure** : lister 1 contact via l'adapter `CRM_PROVIDER` (port `_shared/crm.md`).
 - **LinkedIn configure** : `linkedin_client.py search-people --keywords "test" --limit 1`.
-- **Outlook configure** : `outlook_client.py emails-list --limit 1`.
-- **Gmail configure** : equivalent mail-list (1 mail recent).
+- **Email configure** : op `list-inbox(limit=1)` via le port `_shared/email.md`, sur
+  l'adapter `EMAIL_PROVIDER` actif (gog : `gog -a <acct> gmail search "in:inbox" -j --limit 1` ;
+  ms365 : tool `list-mail-messages` ; unipile-outlook : `outlook_client.py emails-list --limit 1`).
 - **Fathom configure** : `fathom_client.py meetings --limit 1` (depuis `.claude/skills/fathom/scripts`, venv active).
 
 Reporter le resultat de chaque test :

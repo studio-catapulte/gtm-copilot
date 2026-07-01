@@ -35,7 +35,7 @@ Aller sur [airtable.com](https://airtable.com), créer un compte gratuit.
 ## 4. Configurer le `.env`
 
 ```bash
-CRM_TYPE=airtable
+CRM_PROVIDER=airtable
 AIRTABLE_API_KEY=pat_xxxxx
 AIRTABLE_BASE_ID=appXXXXXXXXXX    # visible dans l'URL de la base
 AIRTABLE_TABLE_ID=tblXXXXXXXXXX   # visible dans l'URL de la table

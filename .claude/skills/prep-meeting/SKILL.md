@@ -24,7 +24,7 @@ L'utilisateur fournit au minimum UN de ces elements :
 
 ### Etape 1 — Collecter les infos sur le prospect
 
-1. **Chercher dans le CRM Notion** (database ID dans `.env`) :
+1. **Chercher dans le CRM** (via le port `.claude/skills/_shared/crm.md`, provider actif = `CRM_PROVIDER`) :
    - Nom, entreprise, poste, statut, notes existantes
    - Historique des echanges (champ Notes, Dernier contact)
    - **Si le contact n'est pas trouve dans le CRM** → le signaler et demander :
@@ -117,7 +117,7 @@ Lire les fichiers dans `knowledge/` pour preparer les angles :
 
 ### Etape 4 — Mettre a jour le CRM
 
-- Ajouter les infos enrichies dans la fiche Notion du contact
+- Ajouter les infos enrichies dans la fiche du contact (via le port CRM)
 - S'assurer que le statut et la date Next sont a jour
 
 ## Output
