@@ -29,7 +29,7 @@ Dans NocoDB :
 | Date dernière action | Date | |
 | Notes | LongText | |
 
-Schéma aligné avec [`../../.claude/skills/_shared/crm.md`](../../.claude/skills/_shared/crm.md).
+Schéma aligné avec [`../SKILL.md`](../SKILL.md).
 
 ## Étape 3 — Générer un API token
 
@@ -45,7 +45,6 @@ Schéma aligné avec [`../../.claude/skills/_shared/crm.md`](../../.claude/skill
 ## Étape 5 — Configurer `.env`
 
 ```
-CRM_PROVIDER=nocodb
 NOCODB_URL=https://nocodb.exemple.fr
 NOCODB_TOKEN=xxxxx
 NOCODB_TABLE_ID=mxxxxxxxxxxxxxx
