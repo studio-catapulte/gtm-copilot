@@ -90,7 +90,7 @@ Tu n'as besoin de toucher que `knowledge/` et ce fichier. Le reste fonctionne to
 ## CRM
 
 Outil : **[CRM_TYPE]** — `[airtable | notion | nocodb | custom]`
-Config : voir `.env` et `tools/crm.md` pour le guide complet.
+Config : voir `.env` et `.claude/skills/_shared/crm.md` pour le guide complet.
 
 ## Commandes
 
@@ -102,7 +102,6 @@ Config : voir `.env` et `tools/crm.md` pour le guide complet.
 | "Prepare mon RDV avec X" | Avant un meeting | 5 min |
 | "Weekly" | [JOUR DE BILAN] | 15 min |
 | "Trouve-moi des prospects" | Quand le pipeline est vide | 15 min |
-| "Fais des slides pour X" | Avant un RDV important | 10 min |
 
 ### Systeme
 

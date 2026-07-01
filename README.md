@@ -48,7 +48,6 @@ Chaque action s'invoque en double mode : phrase en français OU slash command. C
 | "Bilan de la semaine" | `/weekly` | Review : wins, pipeline, objectifs semaine prochaine | Hebdo |
 | "Prepare mon RDV avec X" | `/prep-meeting X` | Profil LinkedIn + entreprise + questions suggérées | À la demande |
 | "Trouve-moi des prospects" | `/sourcing` | Recherche LinkedIn + qualification + ajout CRM | À la demande |
-| "Fais des slides pour X" | `/slides X` | Présentation HTML personnalisée pour un prospect | À la demande |
 | "Premiere fois" / "Initialise le repo" | `/system init` | Setup technique + contexte business | 1x à l'install |
 | "Fin de session" | `/system done` | Log de session + mise à jour des contextes | Fin de journée |
 

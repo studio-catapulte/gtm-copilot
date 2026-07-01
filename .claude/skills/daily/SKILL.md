@@ -8,10 +8,10 @@ description: |
   Triggers: /daily, "routine du matin", "prospection du jour", "quoi de neuf",
   "bonjour", debut de session.
 
-  Utilise les outils : Unipile Outlook (tools/unipile/outlook.md),
-  Unipile LinkedIn (tools/unipile/linkedin.md),
-  Unipile Messaging (tools/unipile/messaging.md),
-  CRM (tools/crm.md).
+  Utilise les outils : Unipile Outlook (.claude/skills/unipile/workflows/outlook.md),
+  Unipile LinkedIn (.claude/skills/unipile/workflows/linkedin.md),
+  Unipile Messaging (.claude/skills/unipile/workflows/messaging.md),
+  CRM (.claude/skills/_shared/crm.md).
 ---
 
 # /daily — Routine quotidienne
@@ -62,10 +62,10 @@ On attaque ?
 
 ### 1a. Mails Outlook (si Pack Pro)
 
-Suivre les instructions dans `tools/unipile/outlook.md` :
+Suivre les instructions dans `.claude/skills/unipile/workflows/outlook.md` :
 
 ```bash
-cd plugins/unipile && source venv/bin/activate
+cd .claude/skills/unipile/scripts && source venv/bin/activate
 python outlook_client.py --user <nom> emails-list --folder INBOX --unread-only --limit 50
 ```
 
@@ -87,13 +87,13 @@ Pour chaque reponse prospect :
 ### 1b. Messages LinkedIn
 
 ```bash
-python plugins/unipile/messaging_client.py chats --provider LINKEDIN --limit 20
+python .claude/skills/unipile/scripts/messaging_client.py chats --provider LINKEDIN --limit 20
 ```
 
 Identifier les messages non lus, lire le contenu :
 
 ```bash
-python plugins/unipile/messaging_client.py messages CHAT_ID --limit 10
+python .claude/skills/unipile/scripts/messaging_client.py messages CHAT_ID --limit 10
 ```
 
 Cross-referencer avec le CRM. Proposer une reponse pour chaque message recu
@@ -119,7 +119,7 @@ Cross-referencer avec le CRM. Proposer une reponse pour chaque message recu
 Recuperer les connexions recentes :
 
 ```python
-import sys; sys.path.insert(0, 'plugins/unipile')
+import sys; sys.path.insert(0, '.claude/skills/unipile/scripts')
 from linkedin_client import UnipileLinkedInClient
 client = UnipileLinkedInClient()
 contacts = client.get_contacts(limit=50)
@@ -132,7 +132,7 @@ Pour chaque nouvelle acceptation :
 1. Lire `knowledge/tone-of-voice.md` pour le style
 2. Rediger un premier message personnalise (setting message)
 3. **Montrer pour validation**
-4. Envoyer via `tools/unipile/messaging.md` (guillemets simples obligatoires)
+4. Envoyer via `.claude/skills/unipile/workflows/messaging.md` (guillemets simples obligatoires)
 5. Mettre a jour le CRM : statut → "Connecte", Dernier contact = aujourd'hui
 
 ### Output etape 2
@@ -161,7 +161,7 @@ Pour chaque contact :
    - Finit par une question ou une proposition concrete
    - **Pas de tirets cadratins**, accents obligatoires
 4. **Montrer pour validation**
-5. Envoyer via le canal appropriate (`tools/unipile/messaging.md` ou `tools/unipile/outlook.md`)
+5. Envoyer via le canal appropriate (`.claude/skills/unipile/workflows/messaging.md` ou `.claude/skills/unipile/workflows/outlook.md`)
 6. Mettre a jour le CRM : Dernier contact, Next, Notes
 
 Si un contact a atteint le max de follow-ups (voir CLAUDE.md) → proposer "Perdu" ou "Nurturing".
@@ -189,7 +189,7 @@ Remplir le pipe avec de nouveaux prospects.
      - Si FIRST_DEGREE → passer a "Connecte" + envoyer un message (etape 2 logic)
      - Sinon → invitation **SANS note** (meilleur taux d'acceptation)
 3. Montrer la liste pour validation groupee
-4. Envoyer les invitations via `tools/unipile/linkedin.md`
+4. Envoyer les invitations via `.claude/skills/unipile/workflows/linkedin.md`
 5. Mettre a jour le CRM : statut → "Invitation", Dernier contact = aujourd'hui
 
 ### Limites LinkedIn

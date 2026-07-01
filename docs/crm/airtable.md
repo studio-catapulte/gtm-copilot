@@ -10,7 +10,7 @@ Aller sur [airtable.com](https://airtable.com), créer un compte gratuit.
 
 1. Créer une nouvelle base "CRM [Nom Entreprise]"
 2. Renommer la première table en "Contacts"
-3. Créer les champs selon le schéma commun (voir [`../../tools/crm.md`](../../tools/crm.md)) :
+3. Créer les champs selon le schéma commun (voir [`../../.claude/skills/_shared/crm.md`](../../.claude/skills/_shared/crm.md)) :
    - Nom → Single line text (déjà présent, renommer)
    - Entreprise → Single line text
    - Statut → Single select → ajouter les étapes du pipeline (voir `CLAUDE.md`)

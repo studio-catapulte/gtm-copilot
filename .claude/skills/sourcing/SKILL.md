@@ -8,8 +8,8 @@ description: |
   Triggers: /sourcing, "trouve-moi des prospects", "cherche des leads",
   "remplis le pipeline", "sourcing".
 
-  Utilise les outils : LinkedIn (tools/unipile/linkedin.md),
-  Enrichissement (tools/enrichment.md), CRM (tools/crm.md).
+  Utilise les outils : LinkedIn (.claude/skills/unipile/workflows/linkedin.md),
+  Enrichissement (.claude/skills/unipile/workflows/enrichment.md), CRM (.claude/skills/_shared/crm.md).
 ---
 
 # /sourcing — Recherche de nouveaux leads
@@ -32,10 +32,10 @@ Si les criteres divergent du ICP, le signaler.
 
 ### Etape 2 — Recherche LinkedIn
 
-Suivre les instructions dans `tools/unipile/linkedin.md` :
+Suivre les instructions dans `.claude/skills/unipile/workflows/linkedin.md` :
 
 ```python
-import sys; sys.path.insert(0, 'plugins/unipile')
+import sys; sys.path.insert(0, '.claude/skills/unipile/scripts')
 from linkedin_client import UnipileLinkedInClient
 client = UnipileLinkedInClient()
 results = client.search_people(keywords="...", location="...", title="...")
@@ -83,7 +83,7 @@ Consomme 1 credit par contact trouve. X contacts = max X credits.
 3. Non, on fera plus tard
 ```
 
-Si oui, suivre `tools/enrichment.md` pour chaque contact.
+Si oui, suivre `.claude/skills/unipile/workflows/enrichment.md` pour chaque contact.
 
 ## Output
 

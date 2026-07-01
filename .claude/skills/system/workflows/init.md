@@ -103,10 +103,10 @@ indisponibles tant que les variables ne sont pas remplies.
 
 ### A.4 — Venv Python pour Unipile
 
-Si le venv n'existe pas dans `plugins/unipile/venv/` :
+Si le venv n'existe pas dans `.claude/skills/unipile/scripts/venv/` :
 
 ```bash
-cd plugins/unipile && ./setup.sh
+cd .claude/skills/unipile/scripts && ./setup.sh
 ```
 
 Le script cree le venv et installe les dependances depuis `requirements.txt`.
@@ -351,7 +351,6 @@ Copilote configure !
 | "Prepare mon RDV avec X" | Avant un meeting (5 min) |
 | "Weekly" | Bilan de la semaine (15 min) |
 | "Trouve-moi des prospects" | Quand le pipeline est vide (15 min) |
-| "Fais des slides pour X" | Avant un RDV important (10 min) |
 | "/done" | Fin de session |
 
 ## Prochaine etape
