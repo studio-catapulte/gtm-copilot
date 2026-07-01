@@ -15,13 +15,21 @@
 
 ## Variables `.env` (référence)
 
-### Unipile
+### LinkedIn (adapter Unipile)
 
 - `UNIPILE_DSN` — endpoint de ton tenant Unipile (avec `https://`)
 - `UNIPILE_API_KEY` — clé API
-- `UNIPILE_LINKEDIN_ACCOUNT_ID` / `UNIPILE_OUTLOOK_ACCOUNT_ID` / `UNIPILE_GMAIL_ACCOUNT_ID` — un par provider connecté
+- `UNIPILE_LINKEDIN_ACCOUNT_ID` — l'account_id LinkedIn
 
 Tu trouves ces valeurs dans ton [Dashboard Unipile](https://dashboard.unipile.com).
+
+### Email + Calendrier
+
+`EMAIL_PROVIDER=<gmail-gog|ms365-mcp|unipile-outlook>` (port `_shared/email.md`) :
+
+- `gmail-gog` — CLI `gog`, aucune var `.env` (gog gère son auth)
+- `ms365-mcp` — serveur MCP `@softeria/ms-365-mcp-server`, auth via tool `login`
+- `unipile-outlook` (legacy) — réutilise les creds Unipile ci-dessus + `UNIPILE_OUTLOOK_ACCOUNT_ID`
 
 ### CRM
 
